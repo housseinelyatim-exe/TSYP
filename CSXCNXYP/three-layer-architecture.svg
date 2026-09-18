@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 660" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrowA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L8,3 z" fill="#333333"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="780" height="660" fill="#ffffff"/>
+
+  <!-- dashed contract boundary -->
+  <rect x="15" y="15" width="750" height="560" rx="14" fill="none" stroke="#7a5cff" stroke-width="1.5" stroke-dasharray="7,5"/>
+  <text x="390" y="598" text-anchor="middle" font-size="12" fill="#7a5cff">shared technical contract: MCP tools + schemas</text>
+
+  <!-- Twin box (expanded) -->
+  <rect x="250" y="34" width="280" height="228" rx="10" fill="#eef2f7" stroke="#334155" stroke-width="1.5"/>
+  <text x="390" y="56" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a1a">Twin</text>
+  <text x="390" y="72" text-anchor="middle" font-size="10.5" fill="#333333">simulates sensors, actuators,</text>
+  <text x="390" y="86" text-anchor="middle" font-size="10.5" fill="#333333">and the environment</text>
+
+  <line x1="266" y1="96" x2="514" y2="96" stroke="#c7ccd4" stroke-width="1"/>
+
+  <text x="266" y="111" font-size="9.5" font-weight="600" fill="#334155">Sensors</text>
+  <text x="266" y="124" font-size="9" fill="#444444">traffic cams, water-level,</text>
+  <text x="266" y="136" font-size="9" fill="#444444">power-load, air-quality,</text>
+  <text x="266" y="148" font-size="9" fill="#444444">emergency-calls</text>
+
+  <text x="400" y="111" font-size="9.5" font-weight="600" fill="#334155">Actuators</text>
+  <text x="400" y="124" font-size="9" fill="#444444">dispatch, traffic-signal,</text>
+  <text x="400" y="136" font-size="9" fill="#444444">water-valve, power-grid,</text>
+  <text x="400" y="148" font-size="9" fill="#444444">isolate/quarantine</text>
+
+  <text x="390" y="165" text-anchor="middle" font-size="8.5" font-style="italic" fill="#556">exposed as MCP-style tools</text>
+
+  <line x1="266" y1="174" x2="514" y2="174" stroke="#c7ccd4" stroke-width="1"/>
+
+  <text x="266" y="189" font-size="9.5" font-weight="600" fill="#334155">Interface (per sensor)</text>
+  <text x="266" y="202" font-size="8.5" font-family="monospace" fill="#333333">generate(sensor_id) -&gt; reading</text>
+  <text x="266" y="214" font-size="8.5" font-family="monospace" fill="#333333">inject_anomaly(sensor_id, mode)</text>
+  <text x="266" y="227" font-size="8.5" fill="#444444">modes: spike, freeze, replay, drift, drop-to-zero</text>
+
+  <text x="266" y="243" font-size="9" fill="#444444">Traffic: real simulator (SUMO / TraCI)</text>
+  <text x="266" y="255" font-size="9" fill="#444444">Water &amp; power: generator-based (extension candidates)</text>
+
+  <!-- City Brain box -->
+  <rect x="30" y="362" width="280" height="190" rx="10" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="170" y="384" text-anchor="middle" font-size="15" font-weight="700" fill="#1d4ed8">City Brain</text>
+  <text x="170" y="401" text-anchor="middle" font-size="10.5" fill="#333333">decides the response,</text>
+  <text x="170" y="415" text-anchor="middle" font-size="10.5" fill="#333333">dispatches actuators</text>
+
+  <line x1="46" y1="425" x2="294" y2="425" stroke="#93b4e8" stroke-width="1"/>
+
+  <text x="46" y="440" font-size="9.5" font-weight="600" fill="#1d4ed8">Detects</text>
+  <text x="46" y="453" font-size="9" fill="#333333">accidents, fires, traffic jams, flooding</text>
+
+  <text x="46" y="471" font-size="9.5" font-weight="600" fill="#1d4ed8">Three-tier cascade</text>
+  <text x="46" y="484" font-size="9" fill="#333333">1. rule table (fast, deterministic)</text>
+  <text x="46" y="496" font-size="9" fill="#333333">2. decision cache (reuse recent cases)</text>
+  <text x="46" y="508" font-size="9" fill="#333333">3. small LLM (novel / critical only)</text>
+
+  <text x="46" y="526" font-size="9" font-style="italic" fill="#3b5a8a">only dispatches if Guardian's</text>
+  <text x="46" y="538" font-size="9" font-style="italic" fill="#3b5a8a">verdict clears the reading</text>
+
+  <!-- Guardian box -->
+  <rect x="470" y="362" width="280" height="190" rx="10" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5"/>
+  <text x="610" y="384" text-anchor="middle" font-size="15" font-weight="700" fill="#b91c1c">Guardian</text>
+  <text x="610" y="401" text-anchor="middle" font-size="10.5" fill="#333333">asks "is this true?";</text>
+  <text x="610" y="415" text-anchor="middle" font-size="10.5" fill="#333333">detects attacks, contains</text>
+
+  <line x1="486" y1="425" x2="734" y2="425" stroke="#f0a8a8" stroke-width="1"/>
+
+  <text x="486" y="440" font-size="9.5" font-weight="600" fill="#b91c1c">Detects</text>
+  <text x="486" y="453" font-size="9" fill="#333333">replay, frozen/stuck sensor, spoofed</text>
+  <text x="486" y="465" font-size="9" fill="#333333">range, tampered HMAC, drift, actuator fail</text>
+
+  <text x="486" y="483" font-size="9.5" font-weight="600" fill="#b91c1c">Contains</text>
+  <text x="486" y="496" font-size="9" fill="#333333">isolate sensor, quarantine device,</text>
+  <text x="486" y="508" font-size="9" fill="#333333">rollback falsified reading</text>
+
+  <text x="486" y="526" font-size="9" font-style="italic" fill="#8a4040">three-tier cascade too: rules/stats</text>
+  <text x="486" y="538" font-size="9" font-style="italic" fill="#8a4040">→ verdict cache → LLM escalation</text>
+
+  <!-- Twin <-> City Brain -->
+  <path d="M300,262 C240,300 200,330 170,360" stroke="#333333" stroke-width="1.6" fill="none" marker-end="url(#arrowA)"/>
+  <text x="150" y="315" text-anchor="middle" font-size="10.5" fill="#333333">sensor readings</text>
+
+  <path d="M210,360 C240,330 280,295 330,264" stroke="#333333" stroke-width="1.6" fill="none" marker-end="url(#arrowA)"/>
+  <text x="255" y="305" text-anchor="middle" font-size="10.5" fill="#333333">actuator</text>
+  <text x="255" y="319" text-anchor="middle" font-size="10.5" fill="#333333">commands</text>
+
+  <!-- Twin <-> Guardian -->
+  <path d="M480,262 C540,300 580,330 610,360" stroke="#333333" stroke-width="1.6" fill="none" marker-end="url(#arrowA)"/>
+  <text x="630" y="315" text-anchor="middle" font-size="10.5" fill="#333333">sensor readings</text>
+
+  <path d="M570,360 C540,330 500,295 450,264" stroke="#333333" stroke-width="1.6" fill="none" marker-end="url(#arrowA)"/>
+  <text x="515" y="305" text-anchor="middle" font-size="10.5" fill="#333333">isolate / quarantine</text>
+  <text x="515" y="319" text-anchor="middle" font-size="10.5" fill="#333333">/ rollback</text>
+
+  <!-- Guardian -> City Brain -->
+  <path d="M470,457 L310,457" stroke="#333333" stroke-width="1.6" fill="none" marker-end="url(#arrowA)"/>
+  <text x="390" y="450" text-anchor="middle" font-size="10.5" fill="#333333">trust verdict</text>
+
+</svg>
