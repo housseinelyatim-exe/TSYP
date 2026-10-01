@@ -1,0 +1,91 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1.7cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+
+\definecolor{accent}{RGB}{0,74,124}
+
+\titleformat{\section}{\large\bfseries\color{accent}}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{6pt}{3pt}
+
+\setlength{\parskip}{8.5pt}
+\setlist[itemize]{topsep=0pt, itemsep=0pt, leftmargin=*}
+\setlist[enumerate]{topsep=0pt, itemsep=1pt, leftmargin=*}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\cfoot{\small\thepage}
+
+\hypersetup{colorlinks=true, urlcolor=accent}
+
+\begin{document}
+
+\begin{flushleft}
+\small Architects of the Noosphere, TSYP 14
+\end{flushleft}
+
+\vspace{-2pt}
+\begin{center}
+\LARGE\bfseries\color{accent}Needs Assessment: Remote Alerting for Transformer Substation Monitoring in Tunisian Factories
+\end{center}
+
+\vspace{12pt}
+
+\section{The Problem}
+Tunisian factories' MT/BT (medium-voltage/low-voltage) transformer substations already carry internal sensors, temperature, dielectric oil level and quality, voltage, wired to an alarm system. The core problem is that this alarm remains passive and purely local: it is loud enough to be heard by anyone standing in the room, yet not loud enough to carry across the factory floor, reaching no one unless a person happens to be physically present nearby. Many Tunisian factories sit empty for large stretches of time (nights, weekends, seasonal low-activity periods such as oil mills outside harvest season), and during those windows an existing detection system becomes effectively useless precisely when human supervision is absent.
+
+This is made worse by the fact that a transformer rarely fails suddenly or unpredictably: field analysis shows the large majority of transformer fires trace back to neglected maintenance rather than sudden accident, loose connections, insufficient ventilation, repeated overload, or degrading dielectric oil [5]. Overheating alone drives roughly 70\% of premature transformer failures, and the physics are unforgiving: every 10\textdegree{}C above rated operating temperature halves insulation lifespan, and a 20\textdegree{}C rise can multiply the failure rate by 4$\times$ [6]. The sensor typically already ``knows'' a parameter is drifting; that information simply has no channel to reach someone capable of intervening in time.
+
+Critically, the gap is not limited to unstaffed hours. Even during working hours, the substation room is neither accessible to all workers nor continuously supervised: only qualified electrical personnel (\emph{habilit\'es}) may enter, and entry itself requires prior safety procedures (consignation of the installation, specific PPE, verification of absence of voltage). A non-qualified worker who notices a suspicious sign near the room, a noise, an odor, can neither verify it themselves nor know whether anyone is actively watching at that moment. The room remains a blind spot on the site even at full activity.
+
+\section{Affected Groups}
+\begin{enumerate}[label=\alph*.]
+\item \textbf{Factory owners and plant managers.} They absorb the entire downside of a drift that was technically detectable but never escalated: facility damage or total loss, extended production stoppage, and liability exposure. Every factory currently relying on a local-only alarm is, by default, forgoing the protective effect that continuous automatic detection is shown to provide [4].
+\item \textbf{Qualified electrical personnel (\emph{habilit\'es}).} They are legally the only people permitted to enter the substation, yet cannot maintain continuous physical presence there. Entry requires a procedure heavy enough (consignation, PPE, voltage-absence verification) that periodic check-ins cannot substitute for real supervision. They carry responsibility for a drift they had no practical way to observe continuously, in a country where electrical risk is already flagged as one of the most fatal and most underestimated occupational hazards in industry [4].
+\item \textbf{Non-qualified factory floor workers.} They work adjacent to a room they are barred from entering, with no way to verify a warning sign themselves and no way to know whether anyone is actively watching at that moment. For this group the substation is a genuine blind spot regardless of whether the factory is staffed.
+\item \textbf{Night and weekend skeleton staff (security, guards).} This is precisely the population physically on-site during the hours identified as highest-risk, when qualified personnel are absent and the local alarm has no audience. However alert they are, they have no channel that would let them act on an early signal.
+\item \textbf{Civil protection and emergency responders.} Their intervention point is currently set by the failure of this alerting gap, not by the sensors themselves. Without early escalation, responders are systematically pushed into the costlier, less effective regime of fighting an already-visible fire rather than acting on an early signal.
+\end{enumerate}
+
+\section{Documented Examples in Tunisia}
+\textbf{Sfax, July 2023, nighttime fire at a STEG transformer substation.} A fire broke out overnight at a STEG transformer substation on the route de Saltnya (Km~7). No one was positioned to catch the early signal; the fire had already grown significantly by the time it was brought under control [1].
+
+\textbf{Ben Arous, July 2025, transformer explosion.} A fire was caused by the explosion of an electrical transformer, generating a large amount of smoke. The incident was discovered only once already underway, rather than flagged in advance by a remote monitoring system; initial reports indicate no casualties [2].
+
+\textbf{Valeo factory, August 2021, absence of early-warning devices.} A major fire affected a plant employing more than 1,500 workers. According to the IndustriALL trade union federation, the incident highlighted the absence of a firefighting system and, specifically, the absence of early-warning devices, a gap directly comparable to the one described in this report [3].
+
+\section{Statistics and Justification}
+A detection system that operates continuously, 24/7, 365 days a year, including nights, weekends, and holidays when no staff are present, fundamentally changes the outcome of an incident. Statistically, the presence of automatic detection is shown to divide fire mortality risk by a factor of \textbf{4 to 6}, and material losses by a factor of \textbf{3}, compared to sites without it, provided the system is properly designed, installed, and maintained [4].
+
+The timing of detection matters enormously: a fire caught at the \textbf{smoke stage} remains manageable with a single extinguisher by whoever is present, while a fire caught only once \textbf{flames} are visible typically requires a full firefighting response and often ends in \textbf{total loss} of the premises [4]. In NIST's controlled room-fire tests, spaces with modern synthetic fuel loads reached flashover in roughly 3--4 minutes, against \textasciitilde29 minutes for legacy natural-material fuel loads [8]; industrial sites are not the rooms NIST tested, but the direction is telling, and it is consistent with both Tunisian incidents above, where the fire was only addressed once already visible rather than at the early, still-manageable stage.
+
+In parallel, electrical risk remains one of the most fatal occupational hazards in Tunisian industry, though often underestimated by companies: serious electrical accidents occur regularly across all sectors, including among experienced workers [4]. This is not a marginal risk category internationally either: in US industrial fire data, lighting, heating, and electrical-distribution equipment combined account for roughly 40\% of industrial ignition events, cited here as international context for scale, not a Tunisia-specific claim [7].
+
+\section{Why This Is Urgent Now}
+None of the five groups above is protected by the sensors that already exist in these rooms today: the missing piece is not detection, but the last mile from sensor to human. The severity compounds because the failure mode is asymmetric, the multi-day-to-multi-week technical drift that precedes an incident is easy to miss silently, but by the time the resulting fire is visible, the outcome ranges from a contained incident to, in the worst documented Tunisian case (Valeo, 2021), a major fire at a plant employing over 1,500 people [1,2,3].
+
+This is also not a case where no framework or tooling already exists: it is a case where what exists stops short of the room. In Tunisia, fire detection is already a \emph{legal} obligation for category-1 classified industrial establishments under d\'ecret n\textdegree{}68-608 and the Direction G\'en\'erale de la Protection Civile's requirements, yet many industrial and tertiary sites still operate with no adequate system, or with installations that are outdated and unmaintained [4]: the law already assumes what this problem is trying to build. Internationally, ISO~45001 requires employers to maintain ongoing risk monitoring, not a one-time check; a local-only alarm that no one is positioned to hear does not meet that standard's intent, even at a nominally certified factory. IEC~61850, the international standard for substation communication, was built specifically so substation data can be reported digitally beyond the local panel, the technology assumption already points toward remote reporting, but on the ground the wiring simply stops at the local alarm. Some factories also already own a maintenance module inside an ERP/CMMS system that could, in principle, log this kind of alert, but in practice the older module is outdated and rarely used, and newer versions are often too complex for floor-level technicians and night staff to use day-to-day.
+
+A low-cost remote-alerting layer added on top of existing sensors is a direct fix for every group described above, without requiring new sensing hardware or additional full-time supervision staff.
+
+\vspace{2pt}
+{\small
+\textbf{Sources:}\\
+{[1] Tunisie Num\'erique: \emph{Incendie dans un poste transformateur de la STEG} (Sfax substation fire, July 2023)}\\
+{[2] La Presse de Tunisie: \emph{Incendie \`a Ben Arous, explosion d'un transformateur \'electrique} (July 2025)}\\
+{[3] IndustriALL: \emph{L'incendie d'une usine en Tunisie t\'emoigne du manque de mesures de s\'ecurit\'e} (Valeo, August 2021)}\\
+{[4] Pr\'evention Plus: fire detection statistics, electrical risk in Tunisian industry, d\'ecret n\textdegree{}68-608 and classified-establishment obligations}\\
+{[5] Cabinet NPM: technical causes of transformer fires}\\
+{[6] Electrical Trader: transformer failure frequency and causes}\\
+{[7] NFPA: US industrial fire ignition-source statistics, 2011--2015}\\
+{[8] NIST Technical Note 2174: fire growth and flashover timing (residential test data)}
+}
+
+\end{document}
