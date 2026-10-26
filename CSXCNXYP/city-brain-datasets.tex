@@ -1,0 +1,563 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2cm]{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[table]{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{amssymb}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{brand}{HTML}{1E3A8A}
+\definecolor{hi}{HTML}{047857}
+\definecolor{med}{HTML}{B45309}
+\definecolor{lo}{HTML}{B91C1C}
+\definecolor{rowalt}{HTML}{F3F6FA}
+
+\titleformat{\section}{\Large\bfseries\color{brand}}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\large\bfseries\color{brand}}{\thesubsection}{0.8em}{}
+\titlespacing*{\subsection}{0pt}{1.2ex}{0.6ex}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small City Brain Convergence -- Public Datasets}
+\rhead{\small v1.2 -- 23 Oct 2026}
+\cfoot{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\HIGH}{\textbf{\textcolor{hi}{High}}}
+\newcommand{\VHIGH}{\textbf{\textcolor{hi}{Very high}}}
+\newcommand{\MED}{\textbf{\textcolor{med}{Medium}}}
+\newcommand{\LOW}{\textbf{\textcolor{lo}{Low}}}
+\newcommand{\yes}{$\checkmark$}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\setlist{nosep,leftmargin=1.2em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5ex}
+\renewcommand{\arraystretch}{1.25}
+
+% one block per dataset
+\newcommand{\facts}[5]{%
+\noindent\begin{tabularx}{\textwidth}{@{}L{2.6cm}Y@{}}
+\textbf{Source} & #1\\
+\textbf{Access} & #2\\
+\textbf{Content} & #3\\
+\textbf{Status} & #4\\
+\textbf{Utility} & #5\\
+\end{tabularx}\par\smallskip}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries\color{brand} Public Datasets for the City Brain}\\[4pt]
+{\large Inventory, analysis and utility of every dataset found}\\[2pt]
+{\small Layer 2 (City Brain) -- detection, graph, mock and scoring teams}
+\end{center}
+\vspace{2mm}
+
+\section*{Summary}
+
+We need real data for five reasons: to set detection thresholds, to make mock sensors realistic, to build test scenarios (normal situations, real incidents, sensor faults, ambiguous and cross-domain cases), to give the scoring model realistic numbers (e.g.\ response times), and to evaluate the Brain on data not used to tune it. No single public dataset covers all our incident types (\code{flood}, \code{fire}, \code{accident}, \code{traffic\_jam}, \code{power\_problem}), so we combine specialised sources.
+
+\textbf{24 datasets} were identified. \textbf{17 were downloaded and analysed}, all numbers below are measured on the real files. 7 more are documented as candidates. The most valuable are: \textbf{UTD19} (real traffic and rush hour), \textbf{FloodNet} and \textbf{USGS} (flood curves and calm baseline), \textbf{UCI load} (normal power), \textbf{AirNow} (real smoke event), \textbf{Eagle-I} (real power outages), \textbf{Intel Lab} (real sensor faults), \textbf{NAB} (labelled anomalies to evaluate our detector), \textbf{NIST smoke alarm tests} (real fires vs cooking), and the \textbf{Hurricane Ida night} (NYC/NJ, 1--2 Sep 2021): flood sensors, citizen calls, road speeds, collisions and power outages for the same storm, a real cross-domain event we can replay as a demo scenario (Section~\ref{sec:storm}).
+
+\begin{itemize}
+\item \textbf{No dataset matches our city.} Real data gives shapes, rates, noise and statistics; zones and sensor IDs still come from the Twin's city description.
+\item \textbf{Real data shows that simple rules fail.} On 21 days of normal Torino traffic, a ``speed $<$ 20\,km/h'' jam rule raises 1.6 false alarms per detector per day; on the smart-grid set, normal variance is almost zero, so ``3$\times$ usual variation'' needs a floor. On NAB, our spec rule catches 71\,\% of labelled traffic anomalies but fires $\approx$1.2 times a day on a clean daily cycle: signals with a daily rhythm need a time-of-day baseline. These findings are turned into settings in Section~\ref{sec:settings}.
+\item \textbf{Faulty sensors can look like incidents.} In the Intel Lab data, dying batteries produce temperatures up to 385\,\textdegree C: a ``fire'' with no fire. Device health and agreement between sensors matter as much as the value.
+\item \textbf{Smoke alone is not fire.} In the NIST tests, cooking sets off commercial alarms in 35--100\,\% of tests; a CO rise of 10\,ppm separates 30/30 real fires from 0/60 cooking tests. On PeMS freeways, logged incidents leave almost no trace at the detector: one traffic sensor is not evidence of an accident.
+\end{itemize}
+
+\section{Inventory}
+
+\subsection{All datasets at a glance}
+
+{\small
+\rowcolors{2}{rowalt}{white}
+\begin{longtable}{@{}L{0.4cm}L{3.9cm}L{1.9cm}L{2.3cm}L{1.5cm}L{4.9cm}@{}}
+\toprule
+\# & \textbf{Dataset} & \textbf{Domain} & \textbf{Access} & \textbf{Utility} & \textbf{Main use for us}\\
+\midrule
+\endhead
+\multicolumn{6}{@{}l}{\textit{Downloaded and analysed}}\\
+1 & UTD19 loop detectors (ETH Zurich) & Traffic & Free, sign-up & \VHIGH & Rush-hour baseline, jam rule, false-jam test\\
+2 & NYC FloodNet street flood sensors & Flood & Open & \HIGH & Real 1-min flood depth curves\\
+3 & USGS gauge 01403060 (Raritan River) & Flood & Open API & \HIGH & Calm water baseline + record flood\\
+4 & UCI ElectricityLoadDiagrams & Power & Open, CC BY & \HIGH & Normal daily load curves and noise\\
+5 & NYC 311 service requests & Calls & Open API & \HIGH & Real citizen calls with text\\
+6 & NYC Motor Vehicle Collisions & Accident & Open API & \HIGH & Geolocated crashes, same city as FloodNet\\
+7 & SmartGrid Cyber-Physical Attack & Power / security & IEEE DataPort & \MED & False-data-injection pattern; Guardian benchmark\\
+8 & FARS 2024 (NHTSA) & Accident & Open & \MED & Accident priors, EMS response times\\
+9 & Fire \& Smoke Digital Twin data & Fire & Open (GitHub) & \MED & Fire call types and rates; alarm-vs-fire ratio\\
+10 & Smoke Detection IoT (Kaggle) & Fire sensors & Kaggle / mirror & \LOW & Air-quality value ranges only\\
+11 & EPA AirNow hourly PM2.5 (June 2023 smoke) & Air quality & Open & \HIGH & Real smoke event: shape and scale for \code{air\_quality}\\
+12 & DOE Eagle-I power outages (NY + NJ 2021) & Power & Open (figshare) & \HIGH & Real \code{power\_problem} incidents incl.\ Ida\\
+13 & NYC DOT Traffic Speeds (Ida night) & Traffic & Open API & \HIGH & Flood $\rightarrow$ traffic impact, link by link\\
+14 & Intel Berkeley Lab sensor data & Sensor faults & Open & \HIGH & Real faults: battery-driven fake readings, stuck, gaps\\
+15 & Numenta Anomaly Benchmark (NAB) & Generic & Open, MIT & \MED & Labelled anomalies; evaluates our detector\\
+16 & Freeway Traffic Incident Detection (PeMS, IEEE DataPort) & Traffic & IEEE DataPort & \LOW & Freeway false-alarm test; not usable for recall\\
+17 & NIST smoke alarm tests (TN 1947) & Fire sensors & Open (NIST) & \VHIGH & Real fires vs cooking: CO as second signal\\
+\midrule
+\multicolumn{6}{@{}l}{\textit{Candidates, not yet downloaded}}\\
+18 & TraffiDent (Kaggle version, incident table) & Traffic & Kaggle account & \HIGH & Incidents with exact place and time $\rightarrow$ recall\\
+19 & SF Fire Dept.\ Calls for Service & Fire / EMS & Open API & \MED & Dispatch and response-time chain\\
+20 & OpenStreetMap via OSMnx & City graph & Open, ODbL & \MED & Real street network for zones and links\\
+21 & OpenAQ & Air quality & Open API (key) & \LOW & Worldwide PM2.5 (AirNow already covers the need)\\
+22 & Open Power System Data & Power & Open & \LOW & National hourly load (alternative to \#4)\\
+23 & TrafficNet / TrafficNet-2024 & Traffic & IEEE DataPort & \LOW & Larger PeMS incident set, very imbalanced\\
+24 & data.gov.tn (Tunisian portal) & Various & Open (CKAN) & \LOW & No sensor time series found\\
+\bottomrule
+\end{longtable}
+}
+
+\subsection{Coverage: which dataset feeds which part of the Brain}
+
+{\footnotesize
+\rowcolors{2}{rowalt}{white}
+\begin{tabularx}{\textwidth}{@{}L{2.9cm}*{10}{>{\centering\arraybackslash}X}@{}}
+\toprule
+\textbf{Need} & \textbf{UTD19} & \textbf{Flood-Net} & \textbf{USGS} & \textbf{UCI} & \textbf{NYC calls, crashes, speeds} & \textbf{Eagle-I} & \textbf{Air-Now} & \textbf{Intel, NAB} & \textbf{Smart grid} & \textbf{FARS, Fire, Smoke, NIST}\\
+\midrule
+Detection thresholds & \yes & \yes & \yes & \yes & & \yes & \yes & & \yes & \\
+Normal situations & \yes & & \yes & \yes & \yes & \yes & \yes & \yes & \yes & \\
+Real incidents & & \yes & \yes & & \yes & \yes & \yes & & & \yes\\
+Sensor faults / attacks & \yes & & & & \yes & & & \yes & \yes & \\
+Ambiguous cases & \yes & \yes & \yes & & \yes & & \yes & \yes & & \yes\\
+Cross-domain & & \yes & \yes & & \yes & \yes & & & & \\
+Emergency calls & & & & & \yes & & & & & \yes\\
+Detector evaluation & & & & & & & & \yes & & \yes\\
+Scoring (response times) & & & & & & & & & & \yes\\
+Graph structure & \yes & & & & \yes & & & & & \\
+\bottomrule
+\end{tabularx}
+}
+
+\clearpage
+\section{Datasets analysed}
+
+%------------------------------------------------------------------
+\subsection{UTD19 -- urban loop detectors (traffic) \hfill \VHIGH}
+\facts{ETH Zurich, \url{https://utd19.ethz.ch}. Files \code{utd19\_u.csv} (7\,GB), \code{detectors\_public.csv}, \code{links.csv}.}
+{Free after sign-up; academic and non-commercial use; cite Loder et al.\ 2019, \textit{Scientific Reports}.}
+{39 cities, 5-min \code{flow} (veh/h), \code{occ} (\%), \code{speed} (km/h), \code{error} flag; 23,626 detectors with road class, speed limit, lanes and position; road polylines.}
+{Downloaded. Torino analysed in depth (339 detectors with speed, 21 days, 2.08\,M rows).}
+{The only real traffic stream we have. Defines rush hour, proves which jam rules give false alarms, gives a realistic detector $\rightarrow$ road $\rightarrow$ neighbour structure.}
+
+\textbf{Data quality.} Speed exists in only 9 cities (Torino, Rotterdam, Manchester, Constance, Groningen, Bolton, Essen, Innsbruck, Birmingham). The error flag covers 0--79\,\% of rows depending on the city. Lines end in CRLF. 10\,\% of Torino detectors have less than 66\,\% coverage: silent sensors are normal.
+
+\textbf{Rush hour (Torino, weekday medians).} Flow peaks at 8h (732 veh/h) and 17--18h ($\approx$700), against 24 at night. Speed only falls from 46--50 to 39\,km/h. Weekends have no morning peak.
+
+\textbf{Jam rules tested on 21 normal days} (episodes per detector per day; almost all are false alarms):
+
+{\small
+\rowcolors{2}{rowalt}{white}
+\begin{tabularx}{\textwidth}{@{}Y>{\centering\arraybackslash}p{2.6cm}Y@{}}
+\toprule
+\textbf{Rule (3 $\times$ 5 min in a row unless stated)} & \textbf{False alarms} & \textbf{Comment}\\
+\midrule
+Speed $<$ 20 km/h & 1.63 & Peaks at 3h: low speed because no cars pass (median flow 0)\\
+Speed $<$ 50\,\% of the detector's overall median & 1.21 & Same night problem\\
+Speed $<$ 50\,\% of same-hour, same-day-type baseline & 0.63 & Night false alarms divided by 3\\
+\quad + occupancy $\geq$ 25\,\% & 0.29 & Removes empty-road cases\\
+\quad + occupancy $\geq$ 25\,\% for 30 min & \textbf{0.065} & Remaining alarms are real rush-hour queues\\
+\bottomrule
+\end{tabularx}
+}
+
+A $\geq$50\,\% speed drop in one 5-min step happens in 3.7\,\% of all intervals: on its own, ``sudden speed drop'' is noise.
+
+%------------------------------------------------------------------
+\subsection{NYC FloodNet -- street flood sensors \hfill \HIGH}
+\facts{NYC Open Data, datasets \code{aq7i-eu5q} (events) and \code{kb2e-tjy3} (sensors).}
+{Open, CSV or API.}
+{3,526 flood events (Nov 2020 -- Oct 2026) from 319 sensors; for each event: start/end, max depth, time to peak, drain time, durations above 4/12/24\,in, and the \textbf{full depth time series} (60-s steps). 491 sensors with position and tidal flag.}
+{Downloaded and analysed.}
+{Real flood shapes for detection thresholds and for mock replay.}
+
+{\small
+\rowcolors{2}{rowalt}{white}
+\begin{tabularx}{\textwidth}{@{}Y*{3}{>{\centering\arraybackslash}p{2.2cm}}@{}}
+\toprule
+\textbf{Measure} & \textbf{10\,\%} & \textbf{50\,\%} & \textbf{90\,\%}\\
+\midrule
+Max depth (in) & 0.9 & 3.5 & 11.1\\
+Time to peak (min) & 6 & 37 & 119\\
+Rise rate to peak (in/min) & 0.03 & 0.10 & 0.41\\
+Time to drain (min) & 12 & 54 & 196\\
+Total duration (min) & 20 & 111 & 285\\
+\bottomrule
+\end{tabularx}
+}
+
+67\,\% of events come from tidally influenced sensors (a predictable ``normal situation''). 12\,\% never exceed 1\,in: good ``high water that does not persist'' cases. \textbf{Limit:} no data outside events, so no calm baseline (see USGS).
+
+%------------------------------------------------------------------
+\subsection{USGS 01403060 -- Raritan River at Bound Brook, NJ \hfill \HIGH}
+\facts{USGS Water Services, instantaneous values, parameter 00065 (gage height).}
+{Open REST API, no key.}
+{Water level every 15 min, all of 2021 (34,986 points), including Hurricane Ida.}
+{Downloaded and analysed.}
+{The calm baseline FloodNet lacks, plus moderate rises and a record flood in one series.}
+
+\begin{itemize}
+\item \textbf{Calm:} median stage 17.7\,ft; 15-min change p1/p99 = $-$0.06/+0.08\,ft; February standard deviation \textbf{0.017\,ft}.
+\item \textbf{Ida:} rise starts 1 Sep 19:45 (17.9\,ft) $\rightarrow$ \textbf{peak 42.13\,ft} on 2 Sep 12:00 (+24\,ft in 16\,h). Fastest step \textbf{+1.58\,ft in 15 min}, about 90$\times$ the normal p99. 14\,h above 35\,ft.
+\item \textbf{Six smaller rises} ($>$+5\,ft) in 2021: realistic moderate incidents to test severity levels.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsection{UCI ElectricityLoadDiagrams 2011--2014 \hfill \HIGH}
+\facts{UCI Machine Learning Repository, dataset 321 (Portugal).}
+{Open, CC BY 4.0.}
+{370 clients, average kW per 15 min, 140,256 time slots (711\,MB).}
+{Downloaded and analysed (aggregate + 6 sample clients).}
+{Real normal \code{power\_load} curves and noise; complements the smart-grid attack data.}
+
+\textbf{Aggregate weekday profile} (\% of peak): 0h 55 -- 3h 44 -- 6h 50 -- 8h 60 -- 10h 88 -- 12h 94 -- 15h 96 -- \textbf{18h 100} -- 21h 93 -- 23h 70.
+
+{\small
+\rowcolors{2}{rowalt}{white}
+\begin{tabularx}{\textwidth}{@{}Y>{\centering\arraybackslash}p{4.2cm}>{\centering\arraybackslash}p{4.2cm}@{}}
+\toprule
+\textbf{Level} & \textbf{Deviation from same-slot median (p5 / p95)} & \textbf{15-min step change (p50 / p99)}\\
+\midrule
+Aggregate (370 clients) & $-$14\,\% / +44\,\% & 2\,\% / 16\,\%\\
+Large single client & $-$20\,\% / +25\,\% & 3\,\% / 30\,\%\\
+Small single client & $-$40\,\% / +100\,\% & 5\,\% / 75\,\%\\
+\bottomrule
+\end{tabularx}
+}
+
+282 days are more than 20\,\% off typical, mostly \textbf{summer heat} (July 2013: +52\,\%) and \textbf{holidays} (25 Dec: $-$40\,\%). 210 clients start after June 2011 (leading zeros). No outages are labelled.
+
+%------------------------------------------------------------------
+\subsection{NYC 311 and Motor Vehicle Collisions -- the Hurricane Ida night \hfill \VHIGH}
+\facts{NYC Open Data: 311 Service Requests (\code{erm2-nwe9}), Motor Vehicle Collisions -- Crashes (\code{h9gi-nx95}), plus FloodNet.}
+{Open, Socrata API.}
+{311: complaint type, descriptor, time, location. Collisions: time, location, injuries, contributing factors. Extract: 31 Aug -- 3 Sep 2021 (6,275 flood/signal calls, 3,727 crashes) and August 2021 as reference.}
+{Downloaded and analysed.}
+{A real, timestamped, geolocated \textbf{cross-domain} incident in the same city as FloodNet.}
+
+Window: 1 Sep 18:00 -- 2 Sep 06:00 (local time).
+
+{\small
+\rowcolors{2}{rowalt}{white}
+\begin{tabularx}{\textwidth}{@{}Y>{\centering\arraybackslash}p{3cm}>{\centering\arraybackslash}p{2.6cm}>{\centering\arraybackslash}p{1.4cm}@{}}
+\toprule
+\textbf{311 call type} & \textbf{August avg / day} & \textbf{Ida 12\,h} & \textbf{$\times$}\\
+\midrule
+Sewer backup & 57 & 1,524 & 27\\
+Street flooding & 19.5 & 471 & 24\\
+Catch basin clogged / flooding & 30 & 153 & 5\\
+Water in basement & 2.8 & 119 & 42\\
+Traffic signal controller failure & 61 & 231 & 4 (in 12\,h)\\
+\bottomrule
+\end{tabularx}
+}
+
+\begin{itemize}
+\item Flood calls per hour: 19h 29 $\rightarrow$ 21h 221 $\rightarrow$ \textbf{22h 582} $\rightarrow$ 0h 338 $\rightarrow$ 3h 30, with a second wave in the morning (damage discovered).
+\item Collisions: 160 against a typical 124 (+29\,\%); ``pavement slippery'' among top factors.
+\item FloodNet: 3 neighbouring Brooklyn (Gowanus) sensors flooded within 75 min, up to \textbf{35.6\,in}; the first 311 flood call within 1\,km came \textbf{3 minutes before} the first sensor event. Two Queens sensors saw $<$3\,in with no nearby calls (ambiguous, low severity).
+\end{itemize}
+
+\textbf{Utility.} Sensor + calls agreeing in time (our ``water abnormal + flood call'' rule); one incident spreading to neighbouring zones (graph \code{NEXT\_TO}, no duplicates); a full chain flood $\rightarrow$ signal failure $\rightarrow$ collisions for the \code{/chain} endpoint. Basis for a ``Storm night'' demo scenario.
+
+%------------------------------------------------------------------
+\subsection{SmartGrid Cyber-Physical Attack Dataset \hfill \MED}
+\facts{IEEE DataPort, DOI 10.21227/symr-bz19.}
+{IEEE DataPort subscription.}
+{6 scenarios (benign, false data injection, backdoor, brute force, ransomware, reverse shell); each \code{Physical.csv} (9 PLCs: frequency, voltage, current, active/reactive power, breaker) and \code{Cyber.csv} (packet headers, Modbus/TCP). About 100,000 rows $\approx$ 4 min per file.}
+{Downloaded and analysed.}
+{Guardian benchmark; realistic pattern for a fake power reading. Low value for normal load (simulated steady state).}
+
+\begin{itemize}
+\item \textbf{Benign is flat}: frequency constant at 59.992\,Hz; V, I, P vary by $<$0.01\,\%; breaker always closed. No label column, no attack start time; odd units and thousands separators; FDI cyber file has a shifted header.
+\item \textbf{FDI appears only in the last $\approx$10\,s}: one current $-$39\,\%, another +13\,\%, one active power $\times$2.4, a sudden \textbf{step} on 2--3 devices. Network traffic looks normal.
+\item \textbf{Other attacks are cyber-only}: brute force = HTTP flood on port 9090; backdoor = SSH appears; ransomware and reverse shell not visible in coarse statistics.
+\item Lesson: FDI is invisible on the network and the other attacks are invisible physically; detection needs both views. Our detection must add a \textbf{minimum-variation floor}.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsection{FARS 2024 -- fatal crashes (NHTSA) \hfill \MED}
+\facts{US National Highway Traffic Safety Administration, \code{FARS2024NationalCSV.zip} (33 tables, 390\,MB).}
+{Open.}
+{One row per fatal crash in the US: 36,297 crashes, 39,254 deaths; time, position, road type, weather, light, first harmful event, EMS notification/arrival/hospital times.}
+{Downloaded and analysed (\code{accident.csv}).}
+{Priors and response times; no sensor data.}
+
+Fatal crashes peak 17--21h; 75\,\% in clear weather, 7\,\% in rain. \textbf{EMS notification $\rightarrow$ arrival: median 7 min, p90 18 min.} Uses: accident priors (hour $\times$ weather $\times$ light), mock accident calls, unit ETA in scoring. Limits: fatal crashes only, US roads, no speed or flow.
+
+%------------------------------------------------------------------
+\subsection{Fire and Smoke Digital Twin -- fire incident data \hfill \MED}
+\facts{GitHub \code{UrbanInfoLab/FireIncidentData} (143\,MB, daily \code{FireMap.json}).}
+{Open.}
+{331,616 unique fire calls, 13 US cities, 2022--2026: call type, position, street, agency, time.}
+{Downloaded and analysed.}
+{Realistic fire call categories and rates. Despite the name, \textbf{no smoke or air-quality readings}.}
+
+Top types: ``Level 2 fire'', ``Fire event'', ``Level 1 fire'', ``MVC -- fire only'' ($\approx$15,000 crash + fire), automatic fire alarm, apartment, car, trash, building fire. About \textbf{28,000 calls are alarms, not fires}: a real source of ambiguous cases, supporting the rule ``fire call \textbf{and} air quality abnormal''. Low at 3--6h, plateau 11--21h. 3,493 daily files empty (collection gaps).
+
+%------------------------------------------------------------------
+\subsection{Smoke Detection IoT (Kaggle) \hfill \LOW}
+\facts{Kaggle ``Smoke Detection Dataset''; public GitHub mirror used.}
+{Kaggle account (or mirror).}
+{62,630 rows at 1\,Hz: temperature, humidity, TVOC, eCO2, H2, ethanol, pressure, PM1.0/2.5, particle counts, \code{Fire Alarm} 0/1.}
+{Downloaded and analysed.}
+{Value ranges only. \textbf{Do not train or set thresholds on it.}}
+
+71.5\,\% of rows labelled ``fire''; only 5 recording sessions and 10 label changes; ``fire'' rows include $-$14\,\textdegree C. The best single feature is \textbf{pressure} (88\,\% accuracy), which cannot detect fire: labels leak through the session. Useful ranges: TVOC median 86\,ppb without fire (p90 9,014) vs 1,103 with fire; PM2.5 barely changes (1.5 vs 1.9). Confirms that one air-quality reading alone must not open a \code{fire} incident.
+
+%------------------------------------------------------------------
+\subsection{EPA AirNow -- hourly PM2.5, June 2023 wildfire smoke over NYC \hfill \HIGH}
+\facts{US EPA, hourly files \code{files.airnowtech.org}, 1--14 June 2023 (433\,k PM2.5 rows, 1,356 sites).}
+{Open, no key (data are preliminary).}
+{Hourly PM2.5 per monitoring site; 8 NYC sites used (Bronx, Manhattan, Queens, Staten Island).}
+{Downloaded and analysed.}
+{The real air-quality signal that the smoke set could not give: shape and scale of a smoke event.}
+
+Baseline 1--4 June \textbf{11.5\,\textmu g/m\textsuperscript{3}}; normal 1-h change p99 7.4. Peak \textbf{336} (7 June, median of NYC sites; one site 412). Fastest rise \textbf{+132 in 1 hour} ($\approx$18$\times$ normal p99). 72 hours above 35.5, 14 above 150.5. Decay over two days. \textbf{Ambiguous case:} extreme readings everywhere at once with no fire calls is regional smoke, not a local fire; our rule ``air quality \textbf{and} a call or local signal'' handles it. Limits: hourly, outdoor stations.
+
+%------------------------------------------------------------------
+\subsection{DOE Eagle-I -- recorded power outages (NY + NJ, 2021) \hfill \HIGH}
+\facts{US DOE / ORNL, figshare DOI 10.6084/m9.figshare.24237376; 2021 file (1.1\,GB) streamed and filtered to NY + NJ.}
+{Open.}
+{Customers without power, per county, every 15 min.}
+{Downloaded and analysed.}
+{The first real \code{power\_problem} incidents: shape, scale, recovery.}
+
+{\small
+\rowcolors{2}{rowalt}{white}
+\begin{tabularx}{\textwidth}{@{}Y>{\centering\arraybackslash}p{4.5cm}>{\centering\arraybackslash}p{4.5cm}@{}}
+\toprule
+ & \textbf{New York} & \textbf{New Jersey}\\
+\midrule
+August baseline (customers out) & $\approx$1,030 & $\approx$320\\
+Ida peak & \textbf{50,995} & \textbf{92,651}\\
+Rise & 1,400 $\rightarrow$ 30,500 in 6\,h & 4,400 $\rightarrow$ 83,000 in 4\,h\\
+Still out 30\,h later & 10,000 & 13,700\\
+Worst counties & Westchester, Suffolk & Essex, Morris, Sussex, Somerset\\
+\bottomrule
+\end{tabularx}
+}
+
+Somerset County (NJ) is where the Raritan gauge is: record river flood and 10,000 customers out on the same night. Other large 2021 events (March, July, mid-September) give ``power problem without flood'' cases. NYC's five boroughs peaked at only $\approx$6,600 (underground grid). Limits: county level, customers not kW; times as provided (likely UTC).
+
+%------------------------------------------------------------------
+\subsection{NYC DOT Traffic Speeds -- Ida night vs a normal Wednesday \hfill \HIGH}
+\facts{NYC Open Data \code{i4gi-tjb9}: speeds on 137 monitored links (highways, bridges, tunnels, arterials), $\approx$5 min.}
+{Open API.}
+{1 Sep 12:00 -- 2 Sep 12:00 2021 (35,800 readings) vs 25 Aug same hours (39,300).}
+{Downloaded and analysed.}
+{Real flood $\rightarrow$ traffic impact, hour by hour and link by link.}
+
+Median link speed vs normal: 18h 0.87, 20h 0.79, 21h 0.66, \textbf{22h 0.33 (81 of 137 links below half their normal speed)}, 23h 0.58, 01h 0.68, 09h next day 0.83 (51 links still slow). 22h is also the peak hour of 311 flood calls. Lincoln Tunnel tubes read \textbf{0\,km/h} from 21h to 00h (closure: speed 0 is ambiguous, closed or faulty). From 01h fewer readings arrive (1,258 vs 1,644 per hour): some links went silent during the storm.
+
+%------------------------------------------------------------------
+\subsection{Intel Berkeley Research Lab -- real sensor faults \hfill \HIGH}
+\facts{MIT CSAIL \code{labdata} (Intel Research Berkeley, 2004).}
+{Open.}
+{54 motes, temperature, humidity, light, battery voltage every 31\,s, 28 Feb -- 5 Apr 2004; 2.31\,M lines (4\,\% malformed).}
+{Downloaded and analysed.}
+{Real fault shapes for the mock and for Guardian; proof that one sensor must not open an incident.}
+
+\begin{itemize}
+\item \textbf{17.7\,\% of readings are above 50\,\textdegree C, up to 385\,\textdegree C}; 51 of 52 motes develop it. All of them occur at battery voltage $<$2.4\,V (onset at a median 2.3\,V); \textbf{none} above 2.4\,V. A dying sensor produces a fire-like reading with no fire.
+\item 333 stuck runs ($\geq$20 identical readings); gaps median 33\,s, p99 322\,s, 1.1\,\% over 5 min.
+\item Normal: 16--32\,\textdegree C, step $\leq$0.22\,\textdegree C (p99).
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsection{Numenta Anomaly Benchmark (NAB) -- evaluating our detector \hfill \MED}
+\facts{GitHub \code{numenta/NAB}.}
+{Open, MIT.}
+{58 series with labelled anomaly windows; used: real traffic (7), real known cause (7), artificial with / without anomaly (11).}
+{Downloaded; our spec detection rule run on it.}
+{An independent test bench for the per-sensor abnormality step. Evaluation only, never tuning.}
+
+Rule tested: EMA ($\alpha$=0.05), $|x-\mu|>3\sigma$, 3 readings in a row.
+
+{\small
+\rowcolors{2}{rowalt}{white}
+\begin{tabularx}{\textwidth}{@{}Y>{\centering\arraybackslash}p{2.6cm}>{\centering\arraybackslash}p{2cm}>{\centering\arraybackslash}p{3cm}@{}}
+\toprule
+\textbf{Category} & \textbf{Anomaly windows} & \textbf{Recall} & \textbf{False alarms / day}\\
+\midrule
+Real traffic & 14 & 0.71 & 0.25\\
+Real known cause & 19 & 0.53 & 1.16\\
+Artificial with anomaly & 6 & 0.83 & 1.41\\
+Artificial, no anomaly (clean daily cycle) & 0 & -- & \textbf{1.21}\\
+\bottomrule
+\end{tabularx}
+}
+
+The EMA lags behind a daily cycle and sees the cycle itself as abnormal: daily-rhythm signals need a \textbf{time-of-day baseline}.
+
+%------------------------------------------------------------------
+\subsection{Freeway Traffic Incident Detection (PeMS, IEEE DataPort) \hfill \LOW}
+\facts{IEEE DataPort, DOI 10.21227/hcxe-7k08 (Caltrans PeMS, 2023).}
+{IEEE DataPort login (downloaded by a team member).}
+{\code{incident\_data.parquet} (3.3\,M rows) and \code{non\_incident\_data.parquet} (6.5\,M rows, same detectors the day before and after). Each row is 25 consecutive readings; rows come in groups of three per detector: occupancy, speed (mph), flow. \code{Median} = same-time baseline.}
+{Downloaded and analysed.}
+{\textbf{Not usable to measure recall}; useful as a freeway false-alarm test.}
+
+Data problems: $\approx$60\,\% of rows are exact duplicates, 17\,\% of incident rows also appear in the normal file, \code{Time} is stored as a 32-bit float (unusable as a timestamp), \code{tag} and \code{Percentage} are undocumented. After cleaning (343,656 incident and 719,436 normal detector windows):
+
+{\small
+\rowcolors{2}{rowalt}{white}
+\begin{tabularx}{\textwidth}{@{}Y>{\centering\arraybackslash}p{2.4cm}>{\centering\arraybackslash}p{2.4cm}>{\centering\arraybackslash}p{1.4cm}@{}}
+\toprule
+\textbf{Rule (3 readings in a row)} & \textbf{Incident windows} & \textbf{Normal windows} & \textbf{Ratio}\\
+\midrule
+Speed $<$50\,\% of \code{Median} & 2.57\,\% & 2.73\,\% & 0.94\\
+Speed $<$50\,\% and occupancy $\geq$25\,\% & 1.48\,\% & 1.63\,\% & 0.91\\
+Speed $<$70\,\% of \code{Median} & 6.57\,\% & 6.54\,\% & 1.00\\
+Speed $<$20\,mph at any point & 3.56\,\% & 2.74\,\% & 1.30\\
+\bottomrule
+\end{tabularx}
+}
+
+Incident and normal windows look the same (median speed $\approx$62\,mph in both): most logged incidents do not slow traffic at a given detector. This confirms that \code{accident} needs a call or several neighbouring sensors plus persistence. Recall must be measured on incidents with their exact place and time (TraffiDent Kaggle version, \#18) or on our labelled Storm-night scenario.
+
+%------------------------------------------------------------------
+\subsection{NIST smoke alarm tests -- real fires vs cooking \hfill \VHIGH}
+\facts{NIST, ``Data on smoke alarm performance: a compilation to NIST TN 1947'', DOI 10.18434/T4530X.}
+{Open (US government).}
+{90 room tests at 1\,Hz (2 real fires: flaming and smouldering polyurethane foam; 4 cooking nuisances: broiled burger, fried burger, stir-fry, toast; 15 tests each): CO, CO2, temperature, humidity, HCN, 4 ceiling thermocouples, smoke obscuration. Plus 547 smoke-box tests of single alarms and a summary of alarm times by alarm type.}
+{Downloaded and analysed.}
+{Gives the \textbf{second signal for \code{fire}}: a CO rise. Real 1\,Hz curves for mock fire and nuisance cases.}
+
+{\small
+\rowcolors{2}{rowalt}{white}
+\begin{tabularx}{\textwidth}{@{}Y*{4}{>{\centering\arraybackslash}p{2.5cm}}@{}}
+\toprule
+\textbf{Source (15 tests)} & \textbf{Smoke $\geq$1\,\%/ft} & \textbf{CO +10\,ppm} & \textbf{Ceiling +5\,\textdegree C} & \textbf{CO2 +0.05\,\%}\\
+\midrule
+Flaming fire & 15/15, 185\,s & \textbf{15/15}, 270\,s & 15/15, 262\,s & 15/15, 218\,s\\
+Smouldering fire & 15/15, 1,341\,s & \textbf{15/15}, 1,550\,s & 1/15 & 2/15\\
+Broiled burger & 15/15, 1,225\,s & \textbf{0/15} & 15/15, 923\,s & 0/15\\
+Fried burger & 15/15, 270\,s & \textbf{0/15} & 0/15 & 0/15\\
+Stir-fry & 15/15, 290\,s & \textbf{0/15} & 0/15 & 0/15\\
+Toast & weak & \textbf{0/15} & 0/15 & 0/15\\
+\bottomrule
+\end{tabularx}
+}
+
+Commercial alarms sound on cooking in 35--100\,\% of tests (photoelectric: fried burger 38/42, stir-fry 36/42), often faster than on a smouldering fire. A CO rise of 10\,ppm flags \textbf{30/30 fires and 0/60 cooking tests}, about 1.5\,min after smoke for flaming fires and 3.5\,min for smouldering ones. Ceiling temperature is a poor confirmation (broiling heats it; smouldering does not). Limits: indoor single-room lab tests with laboratory analysers; a cheap Twin CO sensor will be noisier.
+
+\section{The Storm-night chain (Hurricane Ida, 1--2 Sep 2021)}\label{sec:storm}
+
+Six public datasets (FloodNet, USGS, NYC 311, NYC collisions, NYC DOT speeds, Eagle-I) describe the same storm. Together they form a real, timestamped, cross-domain incident covering flood, traffic jam, accidents, power problems, ambiguous and silent sensors: the basis of our demo scenario.
+
+{\small
+\rowcolors{2}{rowalt}{white}
+\begin{tabularx}{\textwidth}{@{}L{1.7cm}YYYY@{}}
+\toprule
+\textbf{Local time} & \textbf{Flood sensors} & \textbf{Calls (311)} & \textbf{Traffic} & \textbf{Power}\\
+\midrule
+19--20h & First FloodNet event 20:11 (Gowanus) & 29 $\rightarrow$ 47 flood calls/h; first nearby call 20:08 & Speed 0.79 of normal & Normal\\
+21h & Two more neighbouring sensors flood (up to 35.6\,in) & 221/h; signal-controller failures rising & 40 links $<$50\,\% & NJ 4,400 out\\
+\textbf{22h} & Raritan River +1.6\,ft per 15 min & \textbf{582/h} & \textbf{0.33 of normal; 81 links $<$50\,\%} & Rising\\
+00h & -- & 338/h; collisions $\times$2 vs normal hour & 60 links $<$50\,\% & NJ peak $\approx$92,000\\
+Morning & Raritan peak 42.1\,ft & Second wave (damage reports) & 51 links still slow & NY peak $\approx$51,000\\
+\bottomrule
+\end{tabularx}
+}
+
+\section{Candidate datasets (not yet downloaded)}
+
+{\small
+\rowcolors{2}{rowalt}{white}
+\begin{longtable}{@{}L{4.2cm}L{3.2cm}L{8.6cm}@{}}
+\toprule
+\textbf{Dataset} & \textbf{Access} & \textbf{What it would add}\\
+\midrule
+\endhead
+TraffiDent (Kaggle \code{gpxlcj/xtraffic}) & Kaggle account; CC BY-NC 4.0 & PeMS loop data with a separate incident table (exact place, start time, type). Needed to measure \textbf{recall}: the IEEE DataPort version (\#16) loses this link. Evaluation only.\\
+SF Fire Department Calls for Service (DataSF) & Open API & Every fire/EMS unit response since 2000 with call type and every time step from call to on-scene. Better response-time model than FARS; alarm vs real fire ratio.\\
+OpenStreetMap via OSMnx & Open, ODbL & One call returns a real street network as a NetworkX graph. Realistic zones, \code{NEXT\_TO} links and road distances for the graph DB.\\
+OpenAQ (API v3) & Open, free key & Hourly PM2.5 / NO2 / O3 from city stations worldwide (incl.\ Tunis if reported). Only needed for non-US or local air-quality data; AirNow already covers the smoke event.\\
+Open Power System Data -- time series & Open & Hourly national load 2015--2020. Alternative to UCI at country scale.\\
+TrafficNet / TrafficNet-2024 & IEEE DataPort & Larger PeMS incident set ($\approx$584\,k incidents) but very imbalanced. Only if \#18 is not enough.\\
+data.gov.tn & Open (CKAN API) & No air-quality, traffic or flood time series found; worth a direct search (``inondation'', ``trafic'', ``qualit\'e de l'air'') if local data is valued.\\
+\bottomrule
+\end{longtable}
+}
+
+\section{Settings derived from the data}\label{sec:settings}
+
+All values go in \code{config/detection.yaml} (nothing hard-coded) and will be tuned again on the real Twin sensors.
+
+{\small
+\rowcolors{2}{rowalt}{white}
+\begin{longtable}{@{}L{2.6cm}L{4.4cm}L{9cm}@{}}
+\toprule
+\textbf{Signal} & \textbf{Based on} & \textbf{Rule / setting}\\
+\midrule
+\endhead
+\code{water\_level} & USGS Raritan, FloodNet & Normal noise $\approx$0.02\,ft per 15 min; ``rising'' = step $>$5$\times$ normal p99 for 3 readings; typical real rise 0.1\,in/min, fast 0.4\,in/min; close after drain ($\approx$1\,h median).\\
+\code{traffic\_speed} & UTD19 Torino & Baseline per detector, per hour, weekday/weekend; jam = speed $<$50\,\% of baseline \textbf{and} occupancy $\geq$25\,\% for 30 min \textbf{and} $\geq$2 neighbouring detectors; ignore speed when flow $\approx$0.\\
+\code{accident} & UTD19, FARS, NYC & Speed drop alone is noise (3.7\,\% of intervals); require an accident call or persistence + neighbours. Unit ETA prior: median 7 min, p90 18 min. PeMS confirms: most incidents leave no trace at one detector.\\
+\code{power\_load} & UCI, smart grid & Same-time-of-day baseline; normal step $\leq$16\,\% per 15 min at substation level; holidays and heat waves look abnormal, so require a second signal. Add a \textbf{minimum-variation floor} (1--2\,\% of mean) to the 3$\sigma$ rule.\\
+\code{fire} & NIST room tests & Smoke abnormal \textbf{and} (CO $\geq$ baseline + 10\,ppm \textbf{or} fire call); wait up to 4 min after smoke for CO; smoke alone = ambiguous / nuisance. CO2 +0.05\,\% within 1 min also confirms a flaming fire.\\
+\code{air\_quality} & Smoke set, fire calls & TVOC baseline $\approx$100\,ppb with large spikes; never open \code{fire} on air quality alone; $\approx$1 in 10 fire calls is an alarm only.\\
+Fake readings & Smart grid FDI & Fake = sudden step ($-$40\,\% / +13\,\%) on a few devices, network looks normal. Used in the ``Guardian rejects the sensor $\rightarrow$ no incident'' test.\\
+All daily-cycle signals & NAB, UTD19, UCI & Normal = per-sensor, per-hour, weekday/weekend baseline, not a plain EMA (plain EMA: $\approx$1.2 false alarms/day on a clean daily cycle).\\
+Device health & Intel Lab & Flag or ignore readings when battery/voltage is low; range-check against the city description; never open an incident on one sensor.\\
+\code{air\_quality} (smoke) & AirNow & Normal 1-h change $\leq$7\,\textmu g/m\textsuperscript{3}; smoke rises 100+ per hour; city-wide rise with no call = regional smoke, not \code{fire}.\\
+\code{power\_problem} & Eagle-I & $\geq$10$\times$ customers out (or load drop) vs baseline, sustained $\geq$30 min; expect slow recovery (a day or more).\\
+\code{traffic\_speed} = 0 & NYC DOT & Closed or faulty: check context and neighbours, not an automatic jam.\\
+Silent sensors & NYC DOT, Intel & Expected during storms; never close or keep an incident open on silence alone.\\
+\bottomrule
+\end{longtable}
+}
+
+\section{Next steps}
+
+\begin{enumerate}
+\item \textbf{Mock scenarios from real data}: replay Torino weekdays (rush hour, no false jam), FloodNet/USGS curves (flood opened within 3 readings, then closed), UCI load (calm power), smart-grid FDI step (fake reading), NIST curves (flaming fire, smouldering fire, cooking nuisance).
+\item \textbf{``Storm night'' demo scenario} (Section~\ref{sec:storm}): neighbouring flood sensors, real 311 calls as \code{call} messages, road speeds, signal failures, collisions, power outage; 12\,h compressed to $\approx$10 min.
+\item \textbf{Fault injection in the mock} from the Intel Lab shapes (battery-driven climb, stuck runs, gaps) and the smart-grid FDI step.
+\item \textbf{Evaluation on unseen data}: use NAB (\#15), the NIST tests (\#17) and the TraffiDent incident table (\#18, to download) only to evaluate, not to tune.
+\item Keep the small extracts ($\approx$200\,MB) in \code{brain/scenarios/data/} with a \code{SOURCES.md} listing licences.
+\end{enumerate}
+
+\section{Licences and citations}
+
+{\small
+\rowcolors{2}{rowalt}{white}
+\begin{tabularx}{\textwidth}{@{}L{4.5cm}Y@{}}
+\toprule
+\textbf{Dataset} & \textbf{Terms}\\
+\midrule
+UTD19 & Academic / non-commercial only; cite Loder, Ambühl, Menendez, Axhausen (2019), \textit{Scientific Reports} 9, doi:10.1038/s41598-019-51539-5; acknowledge utd19.ethz.ch.\\
+UCI ElectricityLoadDiagrams & CC BY 4.0; cite the UCI dataset (id 321).\\
+NYC Open Data (FloodNet, 311, Collisions) & Open; acknowledge NYC Open Data and the FloodNet project.\\
+USGS NWIS & Public domain; acknowledge USGS.\\
+FARS & Public (US government); acknowledge NHTSA.\\
+SmartGrid Cyber-Physical Attack & IEEE DataPort terms; cite DOI 10.21227/symr-bz19.\\
+Fire and Smoke Digital Twin & Public repository; cite arXiv:2305.18313.\\
+Smoke Detection IoT & Kaggle dataset licence; check before citing.\\
+NAB & MIT; cite Ahmad et al.\ (2017), \textit{Neurocomputing}.\\
+EPA AirNow & US EPA, public; data are preliminary; acknowledge AirNow.\\
+DOE Eagle-I & Open; cite figshare DOI 10.6084/m9.figshare.24237376.\\
+Intel Lab data & Open; acknowledge Intel Research Berkeley / MIT CSAIL.\\
+NYC DOT Traffic Speeds & NYC Open Data, open.\\
+TraffiDent (if used) & CC BY-NC 4.0; cite arXiv:2407.11477.\\
+Freeway Traffic Incident Detection & IEEE DataPort terms; cite DOI 10.21227/hcxe-7k08; data from Caltrans PeMS.\\
+NIST smoke alarm data & US government work, public; cite NIST TN 1947 and DOI 10.18434/T4530X.\\
+OSMnx / OpenStreetMap & ODbL; cite Boeing (2017), \textit{CEUS} 65.\\
+\bottomrule
+\end{tabularx}
+}
+
+\end{document}

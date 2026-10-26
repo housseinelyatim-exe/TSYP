@@ -1,0 +1,216 @@
+% =====================================================================
+%  TSYP technical-report template
+% =====================================================================
+\documentclass[10pt,a4paper]{article}
+
+% ---- Page and fonts -------------------------------------------------
+\usepackage[margin=1.7cm,top=1.5cm,bottom=1.6cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype,amsmath,amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx,booktabs,tabularx,xcolor,enumitem,caption,multicol}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+
+% ---- Style ----------------------------------------------------------
+\definecolor{ieee}{HTML}{1E5A8A}                       % accent colour
+\titleformat{\section}{\large\bfseries\color{ieee}}{\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{7pt}{3pt}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{4pt}{1pt}
+\setlist{nosep,leftmargin=1.2em}                       % tight lists
+\captionsetup{font=small,labelfont=bf,skip=3pt}
+\setlength{\parskip}{2pt}
+\setlength{\parindent}{0pt}
+\graphicspath{{figures/}}                              % <where your images live>
+\newcommand{\tablesize}{\footnotesize}                 % size for compact tables
+
+\begin{document}
+
+% ---- Title block ----------------------------------------------------
+\begin{center}
+{\LARGE\bfseries\color{ieee} <Project Name>: <One-line Tagline>}\\[3pt]
+{\large TSYP14 Technical Challenge — IEEE <Society> $\times$ IEEE <Society> Tunisia — Phase~<N> Technical Report}\\[3pt]
+{\small Team: \textbf{<Team Name>} \quad·\quad
+Repository: \url{https://github.com/<user>/<repo>} \\
+Demo video: \href{<url>}{<label>} \quad·\quad Other material: \href{<url>}{<label>}}
+\end{center}
+
+\vspace{-4pt}
+\noindent\textbf{Abstract.} <Problem in one sentence. What you built. How the pieces fit.
+Key \textbf{bold} results with numbers, e.g.\ ``all N missions succeed, M tests pass''.>
+
+% =====================================================================
+% PATTERN 1 — full-width figure, then a numbered inline sequence
+% =====================================================================
+\section{System Architecture and Data Flow}
+\begin{figure}[h]
+\centering\includegraphics[width=\linewidth]{architecture.png}
+\vspace{-14pt}
+\caption{<Caption. Can mention a check, e.g.\ \texttt{test\_name}.>}
+\label{fig:arch}
+\end{figure}
+\vspace{-6pt}
+\textbf{<Sequence title>} (Fig.~\ref{fig:arch}):
+(1)~<Step one>.
+(2)~<Step two>.
+(3)~<Step three>.
+
+% =====================================================================
+% PATTERN 2 — text + bullets on the left, figure on the right
+% =====================================================================
+\section{<Component A>}
+\begin{minipage}[t]{0.50\linewidth}\vspace{0pt}
+<Intro paragraph with \textbf{key terms} in bold.> Decisions:
+\begin{itemize}
+\item \textbf{<Decision 1>:} <explanation>.
+\item \textbf{<Decision 2>:} <rule, e.g.\ $\text{battery} < 1.3\times\text{cost}+15$>.
+\item \textbf{<Decision 3>:} <explanation>.
+\end{itemize}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}
+\centering\includegraphics[width=\linewidth]{<figure>.png}
+\captionof{figure}{<Caption>.}
+\end{minipage}
+
+% =====================================================================
+% PATTERN 3 — full-width tabularx table (wrapping middle column)
+% =====================================================================
+\section{<Component B>}
+\begin{tabularx}{\linewidth}{@{}lXl@{}}
+\toprule
+\textbf{<Col 1>} & \textbf{<Col 2 (wraps)>} & \textbf{<Col 3>}\\
+\midrule
+<Row> & <Long description $\rightarrow$ hardware part> & <value>\\
+<Row> & <Long description> & <value>\\
+\bottomrule
+\end{tabularx}
+
+<Paragraph after the table, with results in \textbf{bold}, e.g.\ coverage 100\,\%.>
+
+% =====================================================================
+% PATTERN 4 — centred figure, then text on the left + small table right
+% =====================================================================
+\section{<Component C>}
+\begin{figure}[h]
+\centering\includegraphics[width=0.92\linewidth]{<figure>.png}
+\vspace{-6pt}
+\caption{<Caption>.}
+\end{figure}
+\vspace{-6pt}
+\begin{minipage}[t]{0.5\linewidth}\vspace{0pt}
+\textbf{<Topic>.} <Explanation. Inline formula: $c(t)=\frac{a}{b}e^{-t/\tau}$.>
+\end{minipage}\hfill
+\begin{minipage}[t]{0.46\linewidth}\vspace{0pt}
+\centering\tablesize
+\begin{tabular}{@{}lccl@{}}
+\toprule
+<A> & <B> & <C> & <D>\\\midrule
+<x> & <x> & <x> & <x>\\
+<x> & <x> & <x> & <x>\\
+\bottomrule
+\end{tabular}
+\captionof{table}{<Caption>.}
+\end{minipage}
+
+% =====================================================================
+% PATTERN 5 — display equations, worked example, float figure,
+%             standalone centred comparison table
+% =====================================================================
+\section{<Method / Contribution>}
+\textbf{<Setup>.} <Explanation>:
+\[
+<equation 1>,\quad <equation 2>,\quad <equation 3>.
+\]
+Worked example: <inputs> $\Rightarrow$ <result> (unit-tested).
+
+\begin{figure}[t]
+\centering\includegraphics[width=0.62\linewidth]{<figure>.png}
+\vspace{-4pt}
+\caption{<Caption>.}
+\end{figure}
+\textbf{<Contribution name> (our contribution).} <What it does and the measured result.>
+
+\medskip
+{\centering\tablesize
+\begin{tabular}{@{}lcc@{}}
+\toprule
+<Metric> & mean & max\\\midrule
+<Baseline> & <v> & <v>\\
+\textbf{<Ours>} & \textbf{<v>} & \textbf{<v>}\\
+<Alternative> & \multicolumn{2}{c}{<note spanning two columns>}\\
+\bottomrule
+\end{tabular}\par}
+\medskip
+<Interpretation of the table.>
+
+% =====================================================================
+% PATTERN 6 — plain prose section
+% =====================================================================
+\section{<Component D>}
+<One dense paragraph. Use \textbf{bold} for key actions and \emph{italics} for defined terms.>
+
+% =====================================================================
+% PATTERN 7 — results: screenshot left, metrics table right
+% =====================================================================
+\section{Simulation Demo and Results}
+\begin{minipage}[t]{0.56\linewidth}\vspace{0pt}
+\centering\includegraphics[width=\linewidth]{<screenshot>.png}
+\captionof{figure}{<Caption>.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.42\linewidth}\vspace{0pt}
+\centering\tablesize
+\begin{tabular}{@{}ll@{}}
+\toprule
+Metric & Value\\\midrule
+<metric> & <value>\\
+<metric> & <value>\\
+Tests & <n>/<n> pass\\
+\bottomrule
+\end{tabular}
+\captionof{table}{<Caption>.}
+\end{minipage}
+
+\smallskip
+Run with \texttt{<command>} (options \texttt{<flags>}).
+
+% =====================================================================
+% PATTERN 8 — failure matrix (small-font 4-column tabularx)
+% =====================================================================
+\section{Failure Cases}
+{\tablesize
+\begin{tabularx}{\linewidth}{@{}lXXl@{}}
+\toprule
+\textbf{Failure} & \textbf{Detection} & \textbf{Response} & \textbf{Simulated}\\\midrule
+<failure> & <how detected> & <response> & \checkmark\ <result>\\
+<failure> & <how detected> & <response> & design\\
+\bottomrule
+\end{tabularx}}
+
+% =====================================================================
+% PATTERN 9 — closing: timeline table left, innovation bullets right
+% =====================================================================
+\section{Implementation Plan (Phase 2) and Innovation}
+\begin{minipage}[t]{0.55\linewidth}\vspace{0pt}
+{\tablesize
+\begin{tabular}{@{}ll@{}}
+\toprule
+Weeks (2026) & Milestone\\\midrule
+<dates> & <milestone>\\
+<dates> & <milestone>\\
+\bottomrule
+\end{tabular}}
+
+\smallskip
+Bill of materials: about <amount>\,TND (<items>). Details in \texttt{<file>}.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.42\linewidth}\vspace{0pt}
+\textbf{Innovation}
+\begin{itemize}
+\item <Point with \textbf{bold key phrase}>.
+\item <Point>.
+\item <Point>.
+\end{itemize}
+\end{minipage}
+
+\end{document}

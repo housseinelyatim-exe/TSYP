@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1040" viewBox="0 0 1700 1040" font-family="DejaVu Sans, Liberation Sans, sans-serif"><defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="context-stroke"/></marker></defs><rect width="1700" height="1040" fill="#fff"/><text x="40" y="55" font-size="28" font-weight="800" fill="#111827" text-anchor="start" >City Brain · Architecture, Inputs &amp; Outputs</text>
+<text x="40" y="88" font-size="15" font-weight="400" fill="#6b7280" text-anchor="start" >MQTT · TLS + HMAC + timestamp + id · detection stage · local LLM + rule fallback · scoring with Guardian trust · safety rules · graph DB · mocks</text>
+<rect x="40" y="150" width="360" height="330" rx="14" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
+<text x="56" y="180" font-size="17" font-weight="800" fill="#374151" text-anchor="start" >FROM THE TWIN</text>
+<text x="384" y="180" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="end" >real sensors or mock</text>
+<rect x="56" y="198" width="328" height="58" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+<text x="70" y="223" font-size="15" font-weight="700" fill="#111827" text-anchor="start" >Sensor readings</text>
+<text x="70" y="244" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" >traffic · water level · power · air quality</text>
+<rect x="56" y="264" width="328" height="58" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+<text x="70" y="289" font-size="15" font-weight="700" fill="#111827" text-anchor="start" >Emergency calls</text>
+<text x="70" y="310" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" >fire, accident, flood reports</text>
+<rect x="56" y="330" width="328" height="58" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+<text x="70" y="355" font-size="15" font-weight="700" fill="#111827" text-anchor="start" >City description</text>
+<text x="70" y="376" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" >zones · sensors · actuators · ranges</text>
+<rect x="56" y="396" width="328" height="58" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+<text x="70" y="421" font-size="15" font-weight="700" fill="#111827" text-anchor="start" >Actuator &amp; unit status</text>
+<text x="70" y="442" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" >state + acknowledgement of our commands</text>
+<rect x="40" y="520" width="360" height="270" rx="14" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
+<text x="56" y="550" font-size="17" font-weight="800" fill="#374151" text-anchor="start" >FROM GUARDIAN</text>
+<text x="384" y="550" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="end" >real layer or mock</text>
+<rect x="56" y="568" width="328" height="58" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+<text x="70" y="593" font-size="15" font-weight="700" fill="#111827" text-anchor="start" >Trust verdicts</text>
+<text x="70" y="614" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" >trusted · suspect · rejected + reason</text>
+<rect x="56" y="634" width="328" height="58" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+<text x="70" y="659" font-size="15" font-weight="700" fill="#111827" text-anchor="start" >Quarantine notices</text>
+<text x="70" y="680" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" >devices the Brain must not use</text>
+<rect x="56" y="700" width="328" height="58" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+<text x="70" y="725" font-size="15" font-weight="700" fill="#111827" text-anchor="start" >Guardian status</text>
+<text x="70" y="746" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" >up / down → Brain safe mode</text>
+<text x="220" y="945" font-size="20" font-weight="800" fill="#374151" text-anchor="middle" >INPUTS</text>
+<rect x="430" y="150" width="70" height="760" rx="14" fill="#ccfbf1" stroke="#0f766e" stroke-width="2.2"/>
+<text x="465" y="530" font-size="19" font-weight="800" fill="#0f766e" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 465 530)" letter-spacing="2">MQTT  ·  TLS</text>
+<rect x="1200" y="150" width="70" height="760" rx="14" fill="#ccfbf1" stroke="#0f766e" stroke-width="2.2"/>
+<text x="1235" y="530" font-size="19" font-weight="800" fill="#0f766e" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 1235 530)" letter-spacing="2">MQTT  ·  TLS</text>
+<path d="M400 315 L428 315" fill="none" stroke="#0f766e" stroke-width="2.4" marker-end="url(#a)"/>
+<path d="M400 655 L428 655" fill="none" stroke="#0f766e" stroke-width="2.4" marker-end="url(#a)"/>
+<rect x="530" y="150" width="640" height="760" rx="18" fill="#fcfcfd" stroke="#111827" stroke-width="2.6"/>
+<text x="850" y="182" font-size="22" font-weight="800" fill="#111827" text-anchor="middle" >CITY BRAIN</text>
+<rect x="555" y="198" width="590" height="82" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+<text x="850" y="224" font-size="16" font-weight="800" fill="#991b1b" text-anchor="middle" >① Check every incoming message</text>
+<text x="850" y="246" font-size="13" font-weight="400" fill="#7f1d1d" text-anchor="middle" >TLS · valid HMAC · fresh timestamp · new id</text>
+<text x="850" y="266" font-size="13" font-weight="400" fill="#7f1d1d" text-anchor="middle" >format · known IDs · possible ranges → clear error codes</text>
+<path d="M500 239 L553 239" fill="none" stroke="#0f766e" stroke-width="2.4" marker-end="url(#a)"/>
+<rect x="555" y="308" width="280" height="82" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="2.4"/>
+<text x="571" y="336" font-size="17" font-weight="800" fill="#065f46" text-anchor="start" >City graph DB</text>
+<text x="571" y="358" font-size="13" font-weight="400" fill="#065f46" text-anchor="start" >city map · linked events</text>
+<text x="571" y="377" font-size="13" font-weight="400" fill="#065f46" text-anchor="start" >and incidents</text>
+<rect x="870" y="308" width="275" height="82" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2.4"/>
+<text x="886" y="336" font-size="17" font-weight="800" fill="#1e3a8a" text-anchor="start" >Detection stage</text>
+<text x="886" y="358" font-size="13" font-weight="400" fill="#1e3a8a" text-anchor="start" >sensor streams → incidents</text>
+<text x="886" y="377" font-size="13" font-weight="400" fill="#1e3a8a" text-anchor="start" >open · update · close</text>
+<path d="M1007 280 L1007 306" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#a)"/>
+<path d="M837 349 L868 349" fill="none" stroke="#059669" stroke-width="2.2" marker-end="url(#a)" marker-start="url(#a)"/>
+<rect x="555" y="418" width="280" height="150" rx="14" fill="#faf5ff" stroke="#7c3aed" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="628" y="440" font-size="12.5" font-weight="800" fill="#7c3aed" text-anchor="start" letter-spacing="1.5">EDGE DEVICE</text>
+<rect x="570" y="450" width="250" height="108" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2.4"/>
+<text x="695" y="478" font-size="19" font-weight="800" fill="#5b21b6" text-anchor="middle" >Local LLM</text>
+<text x="695" y="500" font-size="13" font-weight="400" fill="#4b5563" text-anchor="middle" >called only on incidents</text>
+<text x="695" y="520" font-size="13" font-weight="600" fill="#5b21b6" text-anchor="middle" >understands the city</text>
+<text x="695" y="540" font-size="13" font-weight="600" fill="#5b21b6" text-anchor="middle" >proposes actions</text>
+<rect x="870" y="450" width="275" height="108" rx="12" fill="#fffbeb" stroke="#d97706" stroke-width="2.4"/>
+<text x="1007" y="478" font-size="19" font-weight="800" fill="#92400e" text-anchor="middle" >Rule fallback</text>
+<text x="1007" y="500" font-size="13" font-weight="400" fill="#4b5563" text-anchor="middle" >incident type → standard action</text>
+<text x="1007" y="520" font-size="13" font-weight="600" fill="#92400e" text-anchor="middle" >used when the LLM is</text>
+<text x="1007" y="540" font-size="13" font-weight="600" fill="#92400e" text-anchor="middle" >slow or offline</text>
+<path d="M610 392 L610 448" fill="none" stroke="#059669" stroke-width="2.2" marker-end="url(#a)"/>
+<text x="618" y="410" font-size="11.5" font-weight="700" fill="#065f46" text-anchor="start" >context</text>
+<path d="M1007 392 L1007 448" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#a)"/>
+<path d="M900 392 L900 405 L790 405 L790 448" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#a)"/>
+<text x="908" y="407" font-size="11.5" font-weight="700" fill="#374151" text-anchor="start" >incidents</text>
+<rect x="555" y="598" width="590" height="100" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2.4"/>
+<text x="850" y="626" font-size="18" font-weight="800" fill="#1e3a8a" text-anchor="middle" >Mathematical scoring model</text>
+<text x="850" y="650" font-size="13.5" font-weight="600" fill="#1e3a8a" text-anchor="middle" >scores every proposal · picks the best action</text>
+<text x="850" y="672" font-size="13" font-weight="400" fill="#1f2937" text-anchor="middle" >Guardian trust: trusted counts fully · suspect counts less · rejected counts 0</text>
+<text x="850" y="691" font-size="13" font-weight="700" fill="#1f2937" text-anchor="middle" >Guardian down → safe mode</text>
+<path d="M695 560 L695 596" fill="none" stroke="#7c3aed" stroke-width="2.2" marker-end="url(#a)"/>
+<text x="703" y="584" font-size="11.5" font-weight="700" fill="#5b21b6" text-anchor="start" >proposals</text>
+<path d="M1007 560 L1007 596" fill="none" stroke="#d97706" stroke-width="2.2" marker-end="url(#a)"/>
+<text x="1015" y="584" font-size="11.5" font-weight="700" fill="#92400e" text-anchor="start" >fallback proposals</text>
+<rect x="555" y="728" width="590" height="88" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="2.4"/>
+<text x="850" y="754" font-size="16" font-weight="800" fill="#991b1b" text-anchor="middle" >Safety rules  (the score can never override them)</text>
+<text x="850" y="776" font-size="13" font-weight="400" fill="#7f1d1d" text-anchor="middle" >no quarantined device · never act only on rejected readings</text>
+<text x="850" y="796" font-size="13" font-weight="400" fill="#7f1d1d" text-anchor="middle" >risky actions need ≥ 2 sensors agreeing · cooldown between repeated actions</text>
+<path d="M850 700 L850 726" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#a)"/>
+<rect x="555" y="840" width="590" height="56" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+<text x="850" y="863" font-size="15.5" font-weight="800" fill="#991b1b" text-anchor="middle" >② Sign every outgoing message</text>
+<text x="850" y="883" font-size="13" font-weight="400" fill="#7f1d1d" text-anchor="middle" >HMAC · timestamp · unique id · sent over TLS</text>
+<path d="M850 818 L850 838" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#a)"/>
+<path d="M1145 868 L1198 868" fill="none" stroke="#0f766e" stroke-width="2.4" marker-end="url(#a)"/>
+<rect x="1300" y="150" width="360" height="170" rx="14" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
+<text x="1316" y="180" font-size="17" font-weight="800" fill="#374151" text-anchor="start" >TO THE TWIN</text>
+<text x="1644" y="180" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="end" >real actuators or mock</text>
+<rect x="1316" y="198" width="328" height="58" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+<text x="1330" y="223" font-size="15" font-weight="700" fill="#111827" text-anchor="start" >Actuator commands</text>
+<text x="1330" y="244" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" >dispatch · signals · valves · grid</text>
+<text x="1330" y="282" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" >acknowledged by the Twin</text>
+<rect x="1300" y="350" width="360" height="170" rx="14" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
+<text x="1316" y="380" font-size="17" font-weight="800" fill="#374151" text-anchor="start" >TO TIMELINE &amp; LOGS</text>
+<rect x="1316" y="398" width="328" height="58" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+<text x="1330" y="423" font-size="15" font-weight="700" fill="#111827" text-anchor="start" >Events</text>
+<text x="1330" y="444" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" >detected → decided → acted, timestamped</text>
+<text x="1330" y="482" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" >incl. refused actions + error codes</text>
+<rect x="1300" y="550" width="360" height="210" rx="14" fill="#ffffff" stroke="#9ca3af" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="1316" y="580" font-size="17" font-weight="800" fill="#6b7280" text-anchor="start" >OPTIONAL</text>
+<text x="1644" y="580" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="end" >to agree with the triplet</text>
+<rect x="1316" y="598" width="328" height="58" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="1330" y="623" font-size="15" font-weight="700" fill="#111827" text-anchor="start" >Alerts to Guardian</text>
+<text x="1330" y="644" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" >e.g. "valve did not respond"</text>
+<rect x="1316" y="672" width="328" height="58" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="1330" y="697" font-size="15" font-weight="700" fill="#111827" text-anchor="start" >Brain status</text>
+<text x="1330" y="718" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" >up / down for the other layers</text>
+<text x="1480" y="945" font-size="20" font-weight="800" fill="#374151" text-anchor="middle" >OUTPUTS</text>
+<path d="M1270 235 L1298 235" fill="none" stroke="#0f766e" stroke-width="2.4" marker-end="url(#a)"/>
+<path d="M1270 435 L1298 435" fill="none" stroke="#0f766e" stroke-width="2.4" marker-end="url(#a)"/>
+<path d="M1270 655 L1298 655" fill="none" stroke="#0f766e" stroke-width="2.4" marker-end="url(#a)" stroke-dasharray="6 4"/>
+<text x="850" y="985" font-size="16.5" font-weight="700" fill="#111827" text-anchor="middle" >Check → detection → LLM (or rule fallback) proposes → scoring with Guardian trust → safety rules → sign → outputs</text>
+<text x="850" y="1012" font-size="14" font-weight="400" fill="#6b7280" text-anchor="middle" >Mocks stand in for the Twin and Guardian on both sides until the real layers are connected (R1)</text></svg>

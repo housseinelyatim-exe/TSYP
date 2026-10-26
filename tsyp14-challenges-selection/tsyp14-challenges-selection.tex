@@ -1,0 +1,344 @@
+% TSYP14 Challenges Selection (compile with lualatex)
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[top=2.4cm,bottom=2.4cm,left=2.6cm,right=2.6cm]{geometry}
+\usepackage{fontspec}
+\setmainfont{Lato}[BoldFont={Lato Black}]
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{ulem}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{8pt}
+\linespread{1.12}
+
+\definecolor{titleblue}{HTML}{073762}
+\definecolor{linkblue}{HTML}{1154CC}
+
+% "More details" links: specification books from tsyp.ieee.tn/program/challenges
+\newcommand{\linkAOTN}{https://online.fliphtml5.com/cayrn/ctjg/}
+\newcommand{\linkNEXUS}{https://drive.google.com/file/d/1IGdD5hincq2haXRrSGjGAKNVMgv2DQnd/view?usp=sharing}
+\newcommand{\linkCITY}{https://drive.google.com/file/d/18_xa-QnqOzZSWuOMNb1TwdR93buSmO_t/view?usp=sharing}
+\newcommand{\linkIAS}{https://drive.google.com/file/d/1CZ472UIetrNzyy4dZiYGaYu8XxrVkXQp/view?usp=sharing}
+\newcommand{\linkWIE}{https://drive.google.com/file/d/1CE_09tClW84i7t-oh6olvyofaJQwmkJH/view?usp=sharing}
+\newcommand{\linkCIS}{https://drive.google.com/file/d/1pocl9K2ymSAoT2N2oNVClJ9B-ER0pKbc/view?usp=sharing}
+\newcommand{\linkENERGY}{https://drive.google.com/file/d/15NEu59huEA7_WRwFq4H2khQCtqOV08EY/view?usp=sharing}
+\newcommand{\linkCAS}{https://drive.google.com/file/d/1zEz4RCmTzVbJ711nImh2l9uV_QVDBElu/view?usp=sharing}
+
+% \challenge{number}{name}{dark colour}{light colour}
+\newcommand{\challenge}[4]{%
+  \colorlet{chdark}{#3}\colorlet{chlight}{#4}%
+  \vspace{14pt}
+  {\leftskip=0.6cm\raggedright\fontsize{15}{18}\selectfont\bfseries\color{chdark}#1.\enspace #2\par}
+  \vspace{2pt}}
+\newcommand{\sub}[2]{%
+  {\hspace*{2cm}\fontsize{13}{16}\selectfont\bfseries\color{chlight}#1.\enspace #2\par}}
+\newcommand{\moredetails}[1]{%
+  \vspace{4pt}{\hspace*{0.6cm}\href{#1}{\color{linkblue}\uline{More details}}\par}}
+
+\setlist[itemize]{label=\textbullet,leftmargin=1.1cm,itemsep=3pt,topsep=2pt}
+
+\begin{document}
+
+\begin{center}
+  {\fontsize{24}{30}\selectfont\bfseries\color{titleblue}TSYP14 CHALLENGES SELECTION\par}
+\end{center}
+\vspace{6pt}
+
+%% ---------------------------------------------------------------- 1
+\challenge{1}{AOTN Challenge: Architects of the Noosphere}{green!45!black}{green!55!black}
+
+\sub{a}{Challenge Description:}
+
+The term \emph{noosphere} describes a layer of collective human thought and reasoning: the way
+humanity's shared ideas shape the world. Recent crises, from natural disasters to public health
+emergencies, show that technology alone rarely saves a system under stress. What usually breaks
+first is the decision-making around it: fragmented information, eroded trust, and shortcuts taken
+under pressure.
+
+Architects of the Noosphere challenges student teams to design ethical, collaborative
+intelligence systems that strengthen how communities make decisions and recover under pressure.
+It is a progressive innovation journey grounded in the UN Sustainable Development Goals, around
+three pillars: Sustainable Education, Sustainable Industry and Sustainable Agriculture. Teams
+identify a genuine problem, design a solution, build a working prototype, and defend a
+\textbf{complete business case} in front of a jury, culminating in a final pitch at the TSYP
+Congress. Along the way, unannounced twists test how well teams adapt when the rules change.
+
+\sub{b}{Proposed Solution:}
+
+A \textbf{remote alerting system} that turns hidden warnings from factory transformer substations
+into early, actionable alerts, before a slow, detectable fault grows into a fire.
+
+\sub{c}{Domains explored:}
+\begin{itemize}
+  \item \textbf{Entrepreneurship and Marketing:} To build a sustainable business model, size the
+        market and plan how the solution reaches factories.
+  \item \textbf{Web Development:} To build the platform that delivers alerts and lets the
+        responsible staff follow and confirm them.
+  \item \textbf{IoT and Embedded Systems:} To connect the substation's sensors and send their
+        warnings out in real time.
+  \item \textbf{Soft Skills and Pitching:} To validate the problem with real users and defend the
+        project in front of the jury.
+\end{itemize}
+\moredetails{\linkAOTN}
+
+\newpage
+%% ---------------------------------------------------------------- 2
+\challenge{2}{NEXUS Challenge: Next-Generation Emergency eXchange for Universal Sustainability}{red!70!black}{red!80!black}
+
+\sub{a}{Challenge Description:}
+
+Tunisia faces increasing climate and infrastructure risks, including flash floods, wildfires,
+drought and dam shortfalls, coastal erosion and summer heatwaves. Disaster losses are often not
+caused by a lack of data, but by data that does not reach an early-warning system, responder or
+household in time to act.
+
+The challenge focuses on building low-cost, low-power smart systems that connect sensing,
+communication and response into one resilient system: \textbf{Detect, Communicate, Coordinate,
+Enable Response}. Solutions must be designed for Tunisia's reality, with intermittent power,
+limited connectivity, local maintenance and affordability, and must get information to the
+household, municipality, Civil Protection or farmer in a usable form and in time to act. Teams are
+encouraged to address a real Tunisian region and to connect their solution to the UN Sustainable
+Development Goals.
+
+\sub{b}{Proposed Solution:}
+
+A \textbf{low-cost, offline-capable flash-flood early warning chain} for Tunisian wadi crossings:
+it detects a rising wadi, delivers the warning through whichever channel still works, and
+escalates automatically when nobody confirms it.
+
+\sub{c}{Domains explored:}
+\begin{itemize}
+  \item \textbf{IoT and LoRaWAN:} To connect solar-powered sensor nodes along the wadi over
+        long-range, low-power radio, without depending on the mobile network.
+  \item \textbf{Embedded Systems:} To build the nodes that measure water level and trigger the
+        local beacon and siren on their own.
+  \item \textbf{Entrepreneurship:} To build the business and humanitarian case: costs, funding,
+        stakeholders and community impact.
+\end{itemize}
+\moredetails{\linkNEXUS}
+
+\newpage
+%% ---------------------------------------------------------------- 3
+\challenge{3}{City Brain Convergence Challenge}{blue!60!black}{blue!70!black}
+
+\sub{a}{Challenge Description:}
+
+Smart cities depend on sensing, deciding and trusting all working together, yet most systems are
+built to do only one well. This challenge splits a smart-city system into three layers: the
+\textbf{Twin} (which simulates the city's sensors and actuators), the \textbf{City Brain} (which
+consumes real-time data and makes operational decisions) and the \textbf{Guardian} (which monitors
+the same data to detect anomalies, malfunctions and cyber-attacks).
+
+Teams are grouped into triplets, one team per layer, and each team builds its layer independently
+under a shared technical contract. The three systems must then interoperate as one functioning
+smart city and be tested under realistic and adversarial conditions, including when the data itself
+is being falsified. The challenge emphasizes engineering to an interface you do not control, and
+proving that your system remains reliable when connected to systems you did not build.
+
+\sub{b}{Proposed Solution:}
+
+The \textbf{decision-making layer of a smart city}: it turns live sensor data into incidents and
+chooses safe actions using a local LLM, weighted by security trust scores.
+
+\sub{c}{Domains explored:}
+\begin{itemize}
+  \item \textbf{Agentic AI and LLMs:} To reason about each incident and propose the right response
+        with a language model running locally on an edge device.
+  \item \textbf{Graph Databases:} To store the city map and link related events and incidents
+        together, giving the AI the context it needs.
+  \item \textbf{IoT and MQTT:} To exchange secure, real-time messages with the Twin and Guardian
+        layers built by the other teams.
+\end{itemize}
+\moredetails{\linkCITY}
+
+\newpage
+%% ---------------------------------------------------------------- 4
+\challenge{4}{IAS Challenge: Engineering Industry for a Dynamic Future}{orange!80!black}{orange!90!black}
+
+\sub{a}{Challenge Description:}
+
+Industrial systems are designed to operate efficiently under defined conditions. However,
+real-world industrial environments continuously evolve due to changing demands, unexpected
+disruptions, resource constraints, operational challenges and technological advances. The IAS
+Challenge focuses on developing innovative engineering solutions that address real industrial
+needs, with emphasis on \textbf{resilience, efficiency, sustainability and digitalisation}.
+
+Teams start from a real industrial problem or process and follow a research- and process-based
+methodology: industrial problem, process mapping, research and state of the art, solution
+exploration, comparative analysis, solution development, validation and impact assessment. The
+goal is to deliver practical, technically sound solutions that move an industrial process from its
+current AS-IS state to an improved TO-BE state, and prepare industrial systems for a more dynamic
+and demanding future.
+
+\sub{b}{Proposed Solution:}
+
+An \textbf{AI-driven IoT system} for smarter, safer and more productive fish hatcheries.
+
+\sub{c}{Domains explored:}
+\begin{itemize}
+  \item \textbf{IoT and Embedded Systems:} To monitor water conditions and hatchery equipment
+        continuously in real time.
+  \item \textbf{AI and ML:} To predict risks and optimize the hatchery process from the collected
+        data.
+  \item \textbf{Computer Vision:} To observe the fish and detect abnormal behaviour or conditions
+        automatically.
+  \item \textbf{Automation and Control:} To act on the process automatically and keep conditions
+        within safe limits.
+\end{itemize}
+\moredetails{\linkIAS}
+
+\newpage
+%% ---------------------------------------------------------------- 5
+\challenge{5}{WIE Challenge: Women and Rural Agriculture Innovation}{magenta!60!black}{magenta!70!black}
+
+\sub{a}{Challenge Description:}
+
+This challenge invites engineering and entrepreneurship students to design technology-driven and
+business-driven solutions that strengthen the position of women in Tunisia's rural and peri-urban
+agricultural and artisanal economy. Women agricultural workers, artisanal producers and
+micro-entrepreneurs play a major role in local production, such as olive oil harvesting, essential
+oil distillation, textile weaving and agro-food processing.
+
+However, they face interconnected challenges: low technological automation, fragmented and
+informal supply chains, occupational health risks, limited direct access to markets, and dependence
+on intermediaries. Teams choose one track (reducing physical drudgery, structuring supply chains and
+market access, or improving occupational safety) and develop practical, deployable solutions with
+a realistic business concept for rural Tunisian communities.
+
+\sub{b}{Proposed Solution:}
+
+A \textbf{digital market-access and supply-chain platform} connecting rural women farmers
+directly to customers, with traceability, fair price transparency and offline access.
+
+\sub{c}{Domains explored:}
+\begin{itemize}
+  \item \textbf{Web and Mobile Development:} To build an offline-first platform that also works
+        on basic phones through SMS, and handles orders, collection and traceability.
+  \item \textbf{UI/UX:} To design simple, accessible interfaces adapted to producers with limited
+        digital experience.
+  \item \textbf{Entrepreneurship:} To build a viable business model with fair income for the
+        producers and realistic partnerships.
+\end{itemize}
+\moredetails{\linkWIE}
+
+\newpage
+%% ---------------------------------------------------------------- 6
+\challenge{6}{Ground Truth Under Attack: Securing the Earth Observation Chain}{teal!70!black}{teal!80!black}
+
+\sub{a}{Challenge Description:}
+
+Earth-observation products support decisions in agriculture, insurance, water management and
+disaster response. Their trustworthiness depends on evidence of origin, time, integrity and
+processing history across the sensing, communication and product chain. Yet documented navigation
+interference, false-data injection and increasingly capable image synthesis show that
+plausible-looking data may still be untrustworthy, and a failure may remain silent while a
+corrupted observation reaches the analyst.
+
+Hosted jointly by the IEEE CIS, GRSS and SPS chapters, the challenge asks teams to select one
+segment (ground link, in-situ sensing or imagery) and build a verifiable defensive prototype focused
+on \textbf{provenance, integrity verification, anomaly detection and controlled adversarial
+testing}, using authentic public data and reporting detection quality, false alarms, latency and
+security overhead.
+
+\sub{b}{Proposed Solution:}
+
+An \textbf{AI-driven security system} detecting false data injected into Earth observation
+sensors.
+
+\sub{c}{Domains explored:}
+\begin{itemize}
+  \item \textbf{Cybersecurity:} To sign data at the source and prove it has not been tampered with
+        along the chain.
+  \item \textbf{AI and ML:} To detect falsified readings that look plausible, and test the system
+        against a simulated attacker.
+  \item \textbf{Web Development:} To build the dashboard that shows alerts and verification
+        results to the analyst.
+\end{itemize}
+\moredetails{\linkCIS}
+
+\newpage
+%% ---------------------------------------------------------------- 7
+\challenge{7}{EnergyMind Challenge: Architects of the Energy Noosphere}{olive!70!black}{olive!80!black}
+
+\sub{a}{Challenge Description:}
+
+Tunisia's grid faces growing strain from seasonal peaks, fast-expanding renewable energy, and
+increasing numbers of smart meters and IoT devices. These create more points where a fault,
+miscalibration or biased reading can silently corrupt the data used by automated systems. As AI
+takes on more grid decisions, the question is not only whether it predicts well, but also: can it be
+trusted, and who is accountable when it is wrong?
+
+The EnergyMind Tunisia challenge invites participants to build the \textbf{trust layer} of
+Tunisia's energy systems: an AI that stands between raw energy data and automated action. It must
+detect when data or equipment is failing, faulty or falsified, distinguish genuine grid events from
+data-quality problems, explain every verdict with a confidence score, decide transparently when it
+can act alone and when a human must decide, and design how multiple nodes could share what they
+learn while protecting privacy.
+
+\sub{b}{Proposed Solution:}
+
+An \textbf{explainable AI system} detecting anomalies in the smart grid and escalating critical
+decisions to humans.
+
+\sub{c}{Domains explored:}
+\begin{itemize}
+  \item \textbf{AI and ML:} To detect anomalies in grid data, give each verdict a confidence score
+        and explain it in plain language.
+  \item \textbf{UI/UX:} To design the operator interface where humans review, approve or override
+        the AI's decisions quickly.
+\end{itemize}
+\moredetails{\linkENERGY}
+
+\newpage
+%% ---------------------------------------------------------------- 8
+\challenge{8}{CAS Challenge: Edge AI \& IoT for Resilient Smart Infrastructure}{violet!70!black}{violet!80!black}
+
+\sub{a}{Challenge Description:}
+
+The CAS Challenge focuses on Edge AI, IoT, embedded systems, smart sensing, wireless communication,
+RFID and intelligent systems. Teams are invited to develop solutions for resilient infrastructure and
+real-world applications by combining sensing, intelligent processing, connectivity and real-time
+action.
+
+Teams must develop an intelligent connected system that addresses a real-world problem by
+\textbf{collecting information, processing it intelligently at the edge, and producing an
+appropriate response or action}. A meaningful processing capability must run on the device itself:
+cloud-only solutions are not sufficient. The final solution is demonstrated live through a
+functional prototype showing sensing, intelligent processing, decision-making and action.
+
+\sub{b}{Proposed Solution:}
+
+An \textbf{edge AI device} translating sign language into text and voice in real time.
+
+\sub{c}{Domains explored:}
+\begin{itemize}
+  \item \textbf{Computer Vision:} To recognize hand gestures and signs from a camera feed.
+  \item \textbf{Edge AI:} To run the recognition model directly on the device in real time,
+        without the cloud.
+  \item \textbf{Embedded Systems:} To build a compact, low-cost device that captures, translates
+        and speaks.
+\end{itemize}
+\moredetails{\linkCAS}
+
+\newpage
+%% ---------------------------------------------------------------- 9
+\challenge{9}{Booth Project Challenge}{gray!60!black}{gray!70!black}
+
+The Booth Project Challenge gives us the opportunity to present our work to professionals and peers
+from other schools. It's a chance to showcase our creativity, problem-solving skills, and the impact
+of our project, while receiving valuable feedback and learning from the approaches of others.
+
+\sub{a}{Domains Explored:}
+\begin{itemize}
+  \item \textbf{Embedded systems:} To build hardware-integrated solutions that perform intelligent
+        sensing or automation tasks.
+  \item \textbf{IoT:} To connect smart devices for data collection, analysis and real-time control.
+  \item \textbf{Video game dev:} To engage users or educate audiences through interactive
+        experiences that blend creativity with technology.
+  \item \textbf{etc.:} Open to innovative technologies like robotics, AR/VR\ldots
+\end{itemize}
+
+\end{document}

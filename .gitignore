@@ -1,0 +1,8 @@
+
+# Separate repos with their own GitHub remotes
+RASxAESS/living-map/
+PESxIES/energymind-tunisia/
+CSXCNXYP/repo/
+# Virtualenvs and unfinished browser downloads
+.venv/
+*.crdownload

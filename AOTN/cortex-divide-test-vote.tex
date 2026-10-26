@@ -1,0 +1,119 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[top=1.8cm,bottom=1.8cm,left=2.4cm,right=2.4cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{charter}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\urlstyle{same}
+\usepackage{microtype}
+
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.1em}{0.4em}
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+\titlespacing*{\subsection}{0pt}{0.9em}{0.2em}
+\setlist{itemsep=0.1em,topsep=0.25em,leftmargin=1.5em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\pagestyle{plain}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries Divide, Test, Vote}\\[0.5em]
+{\large How a team of 6 finds the right problem and builds a blueprint everyone owns}\\[0.5em]
+{\itshape A teamwork method used from day one by The Architects, IEEE ENSI SB}
+\end{center}
+\vspace{0.2em}
+
+
+\section{What it is}
+
+Divide, Test, Vote is a way of organizing a whole team through the first two phases of a challenge, from \emph{``we have no problem yet''} to \emph{``we have a blueprint everyone agrees on''}. It has three simple rules:
+
+\begin{itemize}
+  \item \textbf{Divide:} everyone searches alone, in parallel, so the team covers much more ground.
+  \item \textbf{Test:} no problem is kept because it sounds good. It is kept only if real people confirm it.
+  \item \textbf{Vote:} every decision is taken together, so the final document belongs to all members.
+\end{itemize}
+
+No special software is needed. You need a shared folder, a messaging group and a few video meetings.
+
+\section{How we used it}
+
+We ran the method in four \emph{stages} (not to be confused with the AOTN phases).
+
+\subsection{Stage 1: Divide and discover (everyone searches alone)}
+Our team has 6 members. Each member looked for their own contacts: people who work in the field and could talk to us. We used every format we could get: one-to-one conversations, field visits, phone calls and online meetings. Each member explored a different problem, so several problems were studied at the same time.
+
+\subsection{Stage 2: Test and filter (drop fast, move on)}
+We tested each candidate problem with the people we interviewed. When the conversations showed that a problem was not the right one (not real, not painful enough, not solvable by us), we dropped it and moved on to the next one. We compared the problems that were close to each other. The one we kept was the one that attracted both the team and the people we interviewed.
+
+\textbf{Concrete example.} The problem we kept (an industrial-safety problem in Tunisian factories) was confirmed in \textbf{4 recorded sessions with 4 people}, held on the same day in \textbf{3 formats} (in person on site, phone call, video call) and covering \textbf{3 profiles}: a technician who lives the problem every day, two technical managers who decide on it, and an independent industrial-organization expert. Each session produced a log entry with the date, the role, the format, a link to the recording and the key insights.
+
+\subsection{Stage 3: Write from the evidence}
+We wrote our problem report from what we actually collected: our voice recordings and phone calls with the people we interviewed. Every statement in the report comes from a real conversation. The writing was collective work.
+
+\subsection{Stage 4: Blueprint sprint (one idea each, then merge and vote)}
+\begin{itemize}
+  \item \textbf{Kick-off meeting:} we explained every task of the phase and who does what.
+  \item \textbf{Individual ideas:} each member prepared their own idea of the solution.
+  \item \textbf{Collective meeting:} we put all the ideas on the table and merged them into one solution.
+  \item \textbf{Vote:} each idea was kept only if the team accepted it by vote.
+  \item \textbf{Final report:} written and then approved by every member before submission.
+  \item \textbf{Naming:} the name of the project was chosen at the end, once the solution was clear.
+\end{itemize}
+
+\textbf{Diagram.} We made many attempts at the diagram. Each attempt showed a missing step or an unclear arrow, and the team fixed it before the final version.
+
+\section{How your team can use it}
+
+{\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\linewidth}{@{}c X >{\raggedright\arraybackslash}p{3cm}@{}}
+\toprule
+\textbf{Step} & \textbf{What to do} & \textbf{Time}\\
+\midrule
+1 & Each member lists 3 to 5 contacts and books a conversation (visit, call or online meeting) & Days 1 to 3\\
+2 & Hold the interviews. Ask for permission to record. Write a short note the same day & Days 3 to 7\\
+3 & Short team meeting to compare problems. Drop the weak ones, keep the best & Day 8\\
+4 & Write the problem report from the notes and recordings & Days 8 to 10\\
+5 & Kick-off meeting: share the tasks. Everyone prepares one idea & Next phase, day 1\\
+6 & Merge meeting, then vote, then write the final report & Days 2 to 5\\
+7 & Everyone reads and approves the final version, then you choose the name & Last day\\
+\bottomrule
+\end{tabularx}}
+
+\subsection{Tools that helped (one per job)}
+{\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.2cm} >{\raggedright\arraybackslash}p{2.8cm} X@{}}
+\toprule
+\textbf{Job} & \textbf{Tool} & \textbf{Why}\\
+\midrule
+Diagrams (swimlane, flow, UML) & draw.io\newline{\footnotesize\url{app.diagrams.net}} & Free, needs no account\\
+Interview notes & Google Docs\newline{\footnotesize\url{docs.google.com}} & One shared doc, one note per conversation\\
+Voting & Messenger\newline{\footnotesize\url{messenger.com}} & A simple poll in the team group\\
+\bottomrule
+\end{tabularx}}
+
+\subsection{Tips}
+\begin{itemize}
+  \item Choose a clear rule to drop a problem. For example, drop it if two people in a row say it is not a real pain.
+  \item Record the calls (with permission) and quote real sentences in your report. Judges notice evidence.
+  \item Interview different profiles for each problem: a manager, a user, an expert.
+  \item Agree on a voting rule before the meeting (simple majority, or everyone can veto).
+  \item Keep the diagram simple. Show the main path first and the exceptions after.
+\end{itemize}
+
+\subsection{Mistakes to avoid}
+\begin{itemize}
+  \item Falling in love with the first problem and interviewing only people who agree with it.
+  \item Merging ideas without a vote, so some members feel unheard.
+  \item Writing the report from memory instead of from the notes and recordings.
+  \item Choosing the name first. A name chosen late describes the solution better.
+  \item Sending the final report before every member has read and approved it.
+\end{itemize}
+
+\end{document}
